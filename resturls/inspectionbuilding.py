@@ -17,7 +17,7 @@ class InspectionBuilding(Base):
 
 	def get(self):
 		if self.has_permission('RightTPI') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			data = db.query(Table).join(

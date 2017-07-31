@@ -22,7 +22,7 @@ class SurveyChoice(Base):
 		:param is_active: BOOLEAN
 		"""
 		if self.has_permission('RightTPI') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			if is_active is None:
@@ -48,7 +48,7 @@ class SurveyChoice(Base):
 		}
 		"""
 		if self.has_permission('RightTPI') is False:
-			return self.no_access()
+			self.no_access()
 		if 'id_survey_question' not in args or 'name' not in args:
 			raise Exception("You need to pass a 'name' and 'id_survey_question'")
 
@@ -68,7 +68,7 @@ class SurveyChoice(Base):
 
 	def modify(self, args):
 		if self.has_permission('RightTPI') is False:
-			return self.no_access()
+			self.no_access()
 
 		next_question = args['id_survey_question_next'] if 'id_survey_question_next' in args else None
 
@@ -91,7 +91,7 @@ class SurveyChoice(Base):
 
 	def remove(self, id_survey_choice):
 		if self.has_permission('RightTPI') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			data = db.query(Table).get(id_survey_choice)

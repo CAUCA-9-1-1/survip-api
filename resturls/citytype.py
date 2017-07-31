@@ -41,7 +41,7 @@ class CityType(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'name' not in args:
 			raise Exception("You need to pass a 'name'")
@@ -68,7 +68,7 @@ class CityType(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'id_city_type' not in args:
 			raise Exception("You need to pass a id_city_type")
@@ -93,7 +93,7 @@ class CityType(Base):
 		:param id_city_type: UUID
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			data = db.query(Table).get(id_city_type)

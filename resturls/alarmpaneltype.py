@@ -41,7 +41,7 @@ class AlarmPanelType(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'name' not in args:
 			raise Exception("You need to pass a 'name'")
@@ -68,7 +68,7 @@ class AlarmPanelType(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'id_alarm_panel_type' not in args:
 			raise Exception("You need to pass a id_alarm_panel_type")
@@ -93,7 +93,7 @@ class AlarmPanelType(Base):
 		:param id_alarm_panel_type: UUID
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			data = db.query(Table).get(id_alarm_panel_type)

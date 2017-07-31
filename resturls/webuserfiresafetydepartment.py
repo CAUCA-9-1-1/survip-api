@@ -20,7 +20,7 @@ class WebuserFireSafetyDepartment(Base):
 		:param id_webuser: UUID
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			if id_webuser is None:
@@ -44,7 +44,7 @@ class WebuserFireSafetyDepartment(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 		if 'id_webuser' not in args or 'id_fire_safety_department' not in args:
 			raise Exception("You need to pass a 'id_webuser' and 'id_fire_safety_department'")
 
@@ -70,7 +70,7 @@ class WebuserFireSafetyDepartment(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 		if 'id_webuser_fire_safety_department' not in args:
 			raise Exception("You need to pass a 'id_webuser_fire_safety_department'")
 
@@ -96,7 +96,7 @@ class WebuserFireSafetyDepartment(Base):
 		:param id_webuser_fire_safety_department: UUID
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			data = db.query(Table).get(id_webuser_fire_safety_department)

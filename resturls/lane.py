@@ -42,7 +42,7 @@ class Lane(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'id_city' not in args or 'name' not in args:
 			raise Exception("You need to pass a 'name' and 'id_city'")
@@ -72,7 +72,7 @@ class Lane(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'id_lane' not in args:
 			raise Exception("You need to pass a id_lane")
@@ -101,7 +101,7 @@ class Lane(Base):
 		:param id_lane: UUID
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			data = db.query(Table).filter(Table.id_lane == id_lane).first()

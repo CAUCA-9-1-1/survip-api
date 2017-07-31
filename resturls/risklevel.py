@@ -46,7 +46,7 @@ class RiskLevel(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'code' not in args or 'name' not in args:
 			raise Exception("You need to pass a 'name' and 'code'")
@@ -78,7 +78,7 @@ class RiskLevel(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'id_risk_level' not in args:
 			raise Exception("You need to pass a id_risk_level")
@@ -109,7 +109,7 @@ class RiskLevel(Base):
 		:param id_risk_level: UUID
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			data = db.query(Table).get(id_risk_level)

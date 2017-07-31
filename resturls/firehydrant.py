@@ -56,7 +56,7 @@ class FireHydrant(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'id_fire_hydrant_type' not in args or 'fire_hydrant_number' not in args:
 			raise Exception("You need to pass a 'fire_hydrant_number' and 'id_fire_hydrant_type'")
@@ -99,7 +99,7 @@ class FireHydrant(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'id_fire_hydrant' not in args:
 			raise Exception("You need to pass a id_fire_hydrant")
@@ -154,7 +154,7 @@ class FireHydrant(Base):
 		:param id_fire_hydrant: UUID
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			data = db.query(Table).get(id_fire_hydrant)

@@ -23,7 +23,7 @@ class Webuser(Base):
 		"""
 		if id_city is not None and id_city is not True:
 			if self.has_permission('RightTPI') is False:
-				return self.no_access()
+				self.no_access()
 
 			with Database() as db:
 				data = db.query(Table).join(

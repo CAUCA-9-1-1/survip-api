@@ -44,7 +44,7 @@ class FireHydrantConnection(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'id_fire_hydrant' not in args:
 			raise Exception("You need to pass a 'id_fire_hydrant'")
@@ -76,7 +76,7 @@ class FireHydrantConnection(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'id_fire_hydrant_connection' not in args:
 			raise Exception("You need to pass a id_fire_hydrant_connection")
@@ -105,7 +105,7 @@ class FireHydrantConnection(Base):
 		:param id_fire_hydrant_connection: UUID
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			data = db.query(Table).get(id_fire_hydrant_connection)

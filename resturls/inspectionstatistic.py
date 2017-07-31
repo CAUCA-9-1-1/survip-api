@@ -19,7 +19,7 @@ class InspectionStatistic(Base):
 		:param period_end: TIMESTAMP
 		"""
 		if self.has_permission('RightTPI') is False:
-			return self.no_access()
+			self.no_access()
 
 		if period_start is None:
 			period_end = date.today()

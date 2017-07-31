@@ -43,7 +43,7 @@ class Inspection(Base):
 		}
 		"""
 		if self.has_permission('RightTPI') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'id_survey' not in args or 'id_building' not in args or 'id_webuser' not in args:
 			raise Exception("You need to pass a 'id_webuser', 'id_building' and 'id_survey'")
@@ -66,7 +66,7 @@ class Inspection(Base):
 		}
 		"""
 		if self.has_permission('RightTPI') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'id_inspection' not in args:
 			raise Exception("You need to pass a 'id_inspection'")
@@ -92,7 +92,7 @@ class Inspection(Base):
 		:param id_inspection: UUID
 		"""
 		if self.has_permission('RightTPI') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			data = db.query(Table).filter(Table.id_inspection == id_inspection).first()

@@ -19,7 +19,7 @@ class InspectionReport(Base):
 		:param id_inspection_answer: UUID
 		"""
 		if self.has_permission('RightTPI') is False:
-			return self.no_access()
+			self.no_access()
 
 		with DB() as db:
 			data = db.get_row("""SELECT * FROM tbl_inspection_answer

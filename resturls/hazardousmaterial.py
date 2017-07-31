@@ -46,7 +46,7 @@ class HazardousMaterial(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'number' not in args or 'name' not in args:
 			raise Exception("You need to pass a 'name' and 'number'")
@@ -81,7 +81,7 @@ class HazardousMaterial(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'id_hazardous_material' not in args:
 			raise Exception("You need to pass a id_hazardous_material")
@@ -114,7 +114,7 @@ class HazardousMaterial(Base):
 		:param id_hazardous_material: UUID
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			data = db.query(Table).get(id_hazardous_material)

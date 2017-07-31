@@ -43,7 +43,7 @@ class UtilisationCode(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'cubf' not in args or 'name' not in args:
 			raise Exception("You need to pass a 'name' and 'cubf'")
@@ -73,7 +73,7 @@ class UtilisationCode(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'id_utilisation_code' not in args:
 			raise Exception("You need to pass a id_utilisation_code")
@@ -102,7 +102,7 @@ class UtilisationCode(Base):
 		:param id_utilisation_code: UUID
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			data = db.query(Table).get(id_utilisation_code)

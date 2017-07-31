@@ -22,7 +22,7 @@ class SurveyQuestion(Base):
 		:param id_survey: UUID
 		"""
 		if self.has_permission('RightTPI') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			if is_active is None:
@@ -51,7 +51,7 @@ class SurveyQuestion(Base):
 		}
 		"""
 		if self.has_permission('RightTPI') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'title' not in args or 'description' not in args or 'id_survey' not in args:
 			raise Exception("You need to pass a 'title', 'description' and 'id_survey'")
@@ -76,7 +76,7 @@ class SurveyQuestion(Base):
 
 	def modify(self, args):
 		if self.has_permission('RightTPI') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'id_survey_question' not in args:
 			raise Exception("You need to pass a id_survey_question")
@@ -108,7 +108,7 @@ class SurveyQuestion(Base):
 
 	def remove(self, id_survey_question):
 		if self.has_permission('RightTPI') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			data = db.query(Table).get(id_survey_question)

@@ -43,7 +43,7 @@ class Region(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'id_state' not in args or 'name' not in args:
 			raise Exception("You need to pass a 'name' and 'id_state'")
@@ -73,7 +73,7 @@ class Region(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'id_region' not in args:
 			raise Exception("You need to pass a id_region")
@@ -102,7 +102,7 @@ class Region(Base):
 		:param id_region: UUID
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			data = db.query(Table).get(id_region)

@@ -22,7 +22,7 @@ class Building(Base):
 		:param is_active: Boolean
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			if id_building is None:
@@ -47,7 +47,7 @@ class Building(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		id_building = uuid.uuid4()
 		id_language_content = MultiLang.set(args['name'], True)
@@ -71,7 +71,7 @@ class Building(Base):
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'id_building' not in args:
 			raise Exception("You need to pass a id_building")
@@ -104,7 +104,7 @@ class Building(Base):
 		:param id_building: UUID
 		"""
 		if self.has_permission('RightTPI') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			data = db.query(Table).get(id_building)

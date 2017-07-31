@@ -22,7 +22,7 @@ class Survey(Base):
 		:param id_survey: UUID
 		"""
 		if self.has_permission('RightTPI') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			if id_survey is None and is_active is None:
@@ -46,7 +46,7 @@ class Survey(Base):
 		}
 		"""
 		if self.has_permission('RightTPI') is False:
-			return self.no_access()
+			self.no_access()
 
 		id_survey = uuid.uuid4()
 		id_language_content = MultiLang.set(args['name'], True)
@@ -72,7 +72,7 @@ class Survey(Base):
 		}
 		"""
 		if self.has_permission('RightTPI') is False:
-			return self.no_access()
+			self.no_access()
 
 		if 'id_survey' not in args:
 			raise Exception("You need to pass a id_survey")
@@ -109,7 +109,7 @@ class Survey(Base):
 		:param id_survey: UUID
 		"""
 		if self.has_permission('RightTPI') is False:
-			return self.no_access()
+			self.no_access()
 
 		with Database() as db:
 			data = db.query(Table).get(id_survey)
