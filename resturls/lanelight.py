@@ -21,8 +21,8 @@ class LaneLight(Base):
 		with Database() as db:
 			rawdata = db.query(Table).\
 				filter_by(is_active='1', id_lane=id_lane).\
-				options(joinedload(Lane.lane_public_code), joinedload(Lane.lane_generic_code)).\
-				all()
+				options(joinedload(Lane.lane_public_code), joinedload(Lane.lane_generic_code)).all()
+
 			data = []
 			for lane in rawdata :
 				data.append(LaneLightMapper.generate_row(lane, language))
