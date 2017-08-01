@@ -60,8 +60,6 @@ class InterventionPlanGeneralInformations(Base):
 						data['main_building_risk_level_name'] = building.risk_level_name
 						data['main_building_matricule'] = building.matricule
 						data['main_building_affectation'] = building.utilisation_code_name
-						print("Mon language")
-						print(language)
 						lane = db.query(Lane). \
 							filter_by(id_lane=building.id_lane). \
 							options(joinedload(Lane.lane_public_code), joinedload(Lane.lane_generic_code)). \
