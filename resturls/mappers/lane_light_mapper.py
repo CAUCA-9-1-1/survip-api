@@ -4,13 +4,13 @@ from cause.api.management.core.multilang import MultiLang
 class LaneLightMapper:
 	@staticmethod
 	def generate_row(lane, language):
-		return {'id': lane.id_lane, 'fullName': LaneLightMapper._generate_full_name(lane, language)}
+		return {'id': lane.id_lane, 'fullName': LaneLightMapper.generate_full_name(lane, language)}
 
-	@classmethod
-	def _generate_full_name(cls, lane, language):
+	@staticmethod
+	def generate_full_name(lane, language):
 		name = MultiLang.get_name_by_language(language, lane.name)
-		name = cls._add_generic_code_to_name(lane, name)
-		name = cls._add_public_code_to_name(lane, name)
+		name = LaneLightMapper._add_generic_code_to_name(lane, name)
+		name = LaneLightMapper._add_public_code_to_name(lane, name)
 		return name
 
 	@classmethod
