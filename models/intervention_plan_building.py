@@ -6,8 +6,8 @@ from sqlalchemy import Numeric
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-from opensource.models.building import Building
-from opensource.models.intervention_plan import InterventionPlan
+from ..models.building import Building
+from ..models.intervention_plan import InterventionPlan
 
 Base = declarative_base()
 

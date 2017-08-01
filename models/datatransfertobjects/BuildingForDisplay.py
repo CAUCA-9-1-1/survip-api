@@ -41,3 +41,10 @@ class BuildingForDisplay(Base):
 			geojson = geojson + (json.loads(val),)
 
 		return geojson
+
+	@hybrid_property
+	def id_city(self):
+		with Database() as db:
+			lane = db.query(Lane).get(self.id_lane)
+
+		return lane.id_city
