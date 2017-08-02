@@ -13,20 +13,13 @@ class Picture(Base):
 		'PATCH': '',
 	}
 
-	def get(self, id_picture=None, is_active=None):
+	def get(self, id_picture):
 		""" Return all information for picture
 
 		:param id_picture: UUID
 		:param is_active: BOOLEAN
 		"""
 		with Database() as db:
-			if id_picture is None and is_active is None:
-				data = db.query(Table).all()
-			elif id_picture is None:
-				data = db.query(Table).filter(Table.is_active == is_active).all()
-			else:
 				data = db.query(Table).get(id_picture)
-
-		return {
-			'data': data
-		}
+		print(data.picture)
+		return data.picture

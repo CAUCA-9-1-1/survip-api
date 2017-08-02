@@ -40,4 +40,3 @@ class InterventionPlanBuildings(Base):
 				})
 				print(planbuilding)
 		return {'data': buildings}
-	

@@ -11,6 +11,7 @@ from cause.api.survip.url_by_module.survey import UrlForSurvey
 
 class ApiUrl(UrlForSurvey, UrlForInterventionPlan, UrlForInspection,
              UrlForFireHydrant, UrlForAddress, UrlForBuilding, UrlForManagement):
+
 	@cherrypy.expose
 	def firesafetydepartment(self, *args, **kwargs):
 		return self.call_method('FireSafetyDepartment', self.get_argument(args, kwargs))
@@ -21,4 +22,4 @@ class ApiUrl(UrlForSurvey, UrlForInterventionPlan, UrlForInspection,
 
 	@cherrypy.expose
 	def picture(self, *args, **kwargs):
-		return self.call_method('Picture', self.get_argument(args, kwargs))
+		return self.call_method_image('Picture', self.get_argument(args, kwargs))
