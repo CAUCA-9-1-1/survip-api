@@ -15,3 +15,7 @@ class UrlForInterventionPlan(ExecuteApiClass):
 	@cherrypy.expose
 	def interventionplangeneralinformations(self, *args, **kwargs):
 		return self.call_method('InterventionPlanGeneralInformations', self.get_argument(args, kwargs))
+
+	@cherrypy.expose
+	def interventionplanbuildings(self, *args, **kwargs):
+		return self.call_method('InterventionPlanBuildings', self.get_argument(args, kwargs))
