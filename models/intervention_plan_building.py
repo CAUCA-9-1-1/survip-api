@@ -17,7 +17,7 @@ class InterventionPlanBuilding(Base):
 
 	id_intervention_plan_building = Column(String(36), primary_key=True, nullable=False)
 	id_intervention_plan = Column(String(36), ForeignKey(InterventionPlan.id_intervention_plan))
-	id_building = Column(String(36), ForeignKey(Building.id_building))
+	id_building = Column(String(36), ForeignKey(Building.id_building), nullable=False)
 	additional_information = Column(String)
 	height = Column(Numeric)
 	id_unit_of_measure_height = Column(String(36), nullable=False)
