@@ -1,6 +1,9 @@
+import base64
+
 from cause.api.management.core.database import Database
 from cause.api.management.core.multilang import MultiLang
 from cause.api.management.resturls.base import Base
+from cause.api.survip.models.picture import Picture
 from ..models.intervention_plan_building import InterventionPlanBuilding as PlanBuilding
 from ..models.datatransfertobjects.BuildingForDisplay import BuildingForDisplay as Building
 
@@ -32,11 +35,13 @@ class InterventionPlanBuildings(Base):
 
 			for planbuilding in planbuildings:
 				alias = MultiLang.get_by_language(language, planbuilding[3])
-				buildings.append({
+				building = {
 					'id_intervention_plan': planbuilding[0],
 					'id_building': planbuilding[1],
-					'id_picture': planbuilding[2],
-					'alias': alias
-				})
-				print(planbuilding)
+					'picture': None,
+					'alias': alias}
+				if planbuilding[2] is not None:
+					data = db.query(Picture).get(planbuilding[2])
+					building['picture'] = base64.b64encode(data.picture).decode('utf-8')
+				buildings.append(building)
 		return {'data': buildings}

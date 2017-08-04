@@ -22,4 +22,4 @@ class ApiUrl(UrlForSurvey, UrlForInterventionPlan, UrlForInspection,
 
 	@cherrypy.expose
 	def picture(self, *args, **kwargs):
-		return self.call_method_image('Picture', self.get_argument(args, kwargs))
+		return self.call_method('Picture', self.get_argument(args, kwargs))
