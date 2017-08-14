@@ -1,6 +1,6 @@
 from cause.api.management.core.database import Database
 from cause.api.management.resturls.base import Base
-from ..models.firestation import Firesteation as Table
+from ..models.firestation import Firestation as Table
 
 
 class FirestationForList(Base):

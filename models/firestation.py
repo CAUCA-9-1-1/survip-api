@@ -7,7 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 
-class Firesteation(Base):
+class Firestation(Base):
 	__tablename__ = "tbl_firestation"
 
 	id_firestation = Column(String(36), primary_key=True)
