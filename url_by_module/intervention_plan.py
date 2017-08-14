@@ -21,6 +21,22 @@ class UrlForInterventionPlan(ExecuteApiClass):
 		return self.call_method('InterventionPlanBuildings', self.get_argument(args, kwargs))
 
 	@cherrypy.expose
+	def interventionplancourse(self, *args, **kwargs):
+		return self.call_method('InterventionPlanCourse', self.get_argument(args, kwargs))
+
+	@cherrypy.expose
+	def interventionplancourseforlist(self, *args, **kwargs):
+		return self.call_method('InterventionPlanCourseForList', self.get_argument(args, kwargs))
+
+	@cherrypy.expose
+	def interventionplancourselane(self, *args, **kwargs):
+		return self.call_method('InterventionPlanCourseLane', self.get_argument(args, kwargs))
+
+	@cherrypy.expose
+	def interventionplancourselaneforlist(self, *args, **kwargs):
+		return self.call_method('InterventionPlanCourseLaneForList', self.get_argument(args, kwargs))
+
+	@cherrypy.expose
 	def firestation(self, *args, **kwargs):
 		return self.call_method("Firestation", self.get_argument(args, kwargs))
 
