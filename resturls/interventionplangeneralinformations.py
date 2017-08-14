@@ -68,7 +68,13 @@ class InterventionPlanGeneralInformations(Base):
 
 		return {'data': data}
 
+	def camelify(self, out):
+		return (''.join(["_" + x.lower() if i < len(out) - 1 and x.isupper() and out[i + 1].islower()
+						 else x.lower() + "_" if i < len(out) - 1 and x.islower() and out[i + 1].isupper()
+		else x.lower() for i, x in enumerate(list(out))])).lstrip('_').replace('__', '_')
+
 	def modify(self, id_plan, field_name, value):
+		field_name = self.camelify(field_name)
 		with Database() as db:
 			db.query(Plan).filter_by(id_intervention_plan=id_plan).update({field_name: value})
 			db.commit()
