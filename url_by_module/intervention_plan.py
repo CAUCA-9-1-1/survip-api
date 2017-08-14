@@ -19,3 +19,11 @@ class UrlForInterventionPlan(ExecuteApiClass):
 	@cherrypy.expose
 	def interventionplanbuildings(self, *args, **kwargs):
 		return self.call_method('InterventionPlanBuildings', self.get_argument(args, kwargs))
+
+	@cherrypy.expose
+	def firestation(self, *args, **kwargs):
+		return self.call_method("Firestation", self.get_argument(args, kwargs))
+
+	@cherrypy.expose
+	def firestationforlist(self, *args, **kwargs):
+		return self.call_method("FirestationForList", self.get_argument(args, kwargs))
