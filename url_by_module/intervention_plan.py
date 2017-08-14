@@ -27,3 +27,7 @@ class UrlForInterventionPlan(ExecuteApiClass):
 	@cherrypy.expose
 	def firestationforlist(self, *args, **kwargs):
 		return self.call_method("FirestationForList", self.get_argument(args, kwargs))
+
+	@cherrypy.expose
+	def routedirection(self, *args, **kwargs):
+		return self.call_method("RouteDirection", self.get_argument(args, kwargs))
