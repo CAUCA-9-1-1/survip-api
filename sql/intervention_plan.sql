@@ -160,14 +160,23 @@ create table tbl_intervention_plan_building
 create table tbl_intervention_plan_course
 (
 	id_intervention_plan_course uuid not null
-		constraint tbl_intervention_plan_course_pkey
-			primary key,
-	id_firestation uuid,
-	course text,
+	   constraint tbl_intervention_plan_course_pkey primary key,
+	id_intervention_plan uuid not null REFERENCES tbl_intervention_plan(id_intervention_plan),
+	id_firestation uuid NOT NULL REFERENCES tbl_firestation (id_firestation),
 	created_on timestamp default now(),
 	is_active boolean default true not null
-)
-;
+);
+
+create table tbl_intervention_plan_course_lane
+(
+	id_intervention_plan_course_lane uuid NOT NULL PRIMARY KEY,
+	id_intervention_plan_course uuid not null REFERENCES tbl_intervention_plan_course(id_intervention_plan_course),
+	id_lane UUID NOT NULL NOT NULL REFERENCES tbl_lane(id_lane),
+  direction SMALLINT NOT NULL DEFAULT 0,
+  sequence INT NOT NULL DEFAULT 1,
+	created_on timestamp default now(),
+	is_active boolean default true not null
+);
 
 create table tbl_intervention_plan_fire_hydrant
 (
