@@ -1,9 +1,16 @@
 import cherrypy
-
+from cause.api.management.core.route_url import RouteUrl
 from cause.api.management.core.execute_api_class import ExecuteApiClass
 
 
 class UrlForAddress(ExecuteApiClass):
+	def __init__(self):
+		super(UrlForAddress, self).__init__()
+
+		RouteUrl('/lane/', 'Lane')
+		RouteUrl('/citylanes/', 'CityLanes')
+		RouteUrl('/county/', 'County')
+
 	@cherrypy.expose
 	def lane(self, *args, **kwargs):
 		return self.call_method('Lane', self.get_argument(args, kwargs))
