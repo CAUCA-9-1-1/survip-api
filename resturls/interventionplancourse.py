@@ -40,7 +40,7 @@ class InterventionPlanCourse(Base):
 
 	def get(self, id_intervention_plan_course):
 		with Database() as db:
-			data = db.query(Table).filter(Table.is_active == '1', Table.id_intervention_plan_course == id_intervention_plan_course).all()
+			data = db.query(Table).filter(Table.is_active == '1', Table.id_intervention_plan_course == id_intervention_plan_course).first()
 			lanes = self.get_lanes(db, id_intervention_plan_course)
 
 		return {
@@ -73,7 +73,8 @@ class InterventionPlanCourse(Base):
 			data = db.query(Table).get(args['id_intervention_plan_course'])
 
 			if 'id_firestation' in args:
-				data.direction = args['id_firestation']
+				data.id_firestation = args['id_firestation']
+				print('id firestation');
 			if 'is_active' in args:
 				data.is_active = args['is_active']
 
