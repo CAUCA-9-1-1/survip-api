@@ -37,6 +37,11 @@ class Inspection(Base):
 		with Database() as db:
 			return db.query(Building).get(self.id_building).matricule
 
+	@hybrid_property
+	def geojson(self):
+		with Database() as db:
+			return db.query(Building).get(self.id_building).geojson
+
 	def __init__(self, id_inspection, id_survey, id_building, id_webuser):
 		self.id_inspection = id_inspection
 		self.id_survey = id_survey

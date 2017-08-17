@@ -4,9 +4,12 @@ from geoalchemy2 import Geometry, functions
 from sqlalchemy import Column, Boolean, DateTime, Float, Numeric, String, Text, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.orm import joinedload
+
 from cause.api.management.core.database import Database
 from cause.api.management.core.multilang import MultiLang
 from cause.api.management.models.language_content import LanguageContent
+from cause.api.survip.resturls.mappers.building_for_display_loader import BuildingForDisplayLoader
 from .lane import Lane
 
 
@@ -20,20 +23,32 @@ class Building(Base):
 	id_language_content_name = Column(String(36), ForeignKey(LanguageContent.id_language_content), nullable=False)
 	matricule = Column(String(18), nullable=False)
 	civic_number = Column(String(15))
+	civic_letter = Column(String(10))
 	id_lane = Column(String(36), nullable=False)
+	id_risk_level = Column(String(36))
+	coordinates = Column(Geometry())
 	created_on = Column(DateTime, default=datetime.now)
 	is_active = Column(Boolean, default=True)
 
 	@hybrid_property
 	def name(self):
-		return MultiLang.get(self.id_language_content_name)
+		return MultiLang.get_by_language('fr', self.id_language_content_name)
 
 	@hybrid_property
 	def address(self):
-		with Database() as db:
-			lane = db.query(Lane).get(self.id_lane)
+		print('JE ME RENDS ICITTE CALINE!')
+		return BuildingForDisplayLoader.get_building_full_address('fr', self)
 
-		return self.civic_number + ', ' + lane.name['fr']
+	@hybrid_property
+	def geojson(self):
+		with Database() as db:
+			points = db.query(functions.ST_AsGeoJSON(self.coordinates)).first()
+
+		geojson = ()
+		for pos, val in enumerate(points):
+			geojson = geojson + (json.loads(val),)
+
+		return geojson
 
 	def __init__(self, id_building, id_language_content, civic_number):
 		self.id_building = id_building
@@ -42,7 +57,6 @@ class Building(Base):
 
 
 class BuildingFull(Building):
-	civic_letter = Column(String(10))
 	civic_supp = Column(String(10))
 	civic_letter_supp = Column(String(10))
 	appartment_number = Column(String(10))
@@ -67,17 +81,9 @@ class BuildingFull(Building):
 	id_association_building = Column(String(50))
 	id_association_type = Column(String(50))
 	id_unit_type = Column(String(50))
-	coordinates = Column(Geometry())
 	coordinates_source = Column(String(50))
 	details = Column(Text)
 
 	@hybrid_property
-	def geojson(self):
-		with Database() as db:
-			points = db.query(functions.ST_AsGeoJSON(self.coordinates)).first()
-
-		geojson = ()
-		for pos, val in enumerate(points):
-			geojson = geojson + (json.loads(val),)
-
-		return geojson
+	def name(self):
+		return MultiLang.get(self.id_language_content_name)
