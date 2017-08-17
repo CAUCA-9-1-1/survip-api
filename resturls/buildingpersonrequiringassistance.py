@@ -1,5 +1,6 @@
-from causeweb.storage.db import DB
-from causeweb.apis.base import Base
+import uuid
+from cause.api.management.core.database import Database
+from cause.api.management.resturls.base import Base
 
 
 class BuildingPersonRequiringAssistance(Base):
@@ -16,7 +17,7 @@ class BuildingPersonRequiringAssistance(Base):
 
 		:param id_building: UUID
 		"""
-		with DB() as db:
+		with Database() as db:
 			data = db.get_all("SELECT * FROM tbl_building_person_requiring_assistance WHERE id_building=%s;", (id_building,))
 
 		return {
@@ -30,7 +31,7 @@ class BuildingPersonRequiringAssistance(Base):
 			id_building: UUID,
 		}
 		"""
-		with DB() as db:
+		with Database() as db:
 			db.execute("""INSERT INTO tbl_building_person_requiring_assistance (
 							id_building_person_requiring_assistance, id_building, number_of_day_residents, number_of_night_residents,
 							number_of_evening_residents, description, is_active
@@ -49,7 +50,7 @@ class BuildingPersonRequiringAssistance(Base):
 			id_building_person_requiring_assistance: UUID,
 		}
 		"""
-		with DB() as db:
+		with Database() as db:
 			db.execute("""UPDATE tbl_building_person_requiring_assistance SET
 							number_of_day_residents=%s, number_of_night_residents=%s, number_of_evening_residents=%s, description=%s
 						  WHERE id_building_person_requiring_assistance=%s;""", (
@@ -66,7 +67,7 @@ class BuildingPersonRequiringAssistance(Base):
 
 		:param id_building_person_requiring_assistance: UUID
 		"""
-		with DB() as db:
+		with Database() as db:
 			db.execute("UPDATE tbl_building_person_requiring_assistance SET is_active=%s WHERE id_building_person_requiring_assistance=%;", (
 				False, id_building_person_requiring_assistance
 			))

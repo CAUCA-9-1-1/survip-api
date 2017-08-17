@@ -1,8 +1,8 @@
 import uuid
-from causeweb.session.general import Session
-from causeweb.storage.db import DB
-from causeweb.apis.base import Base
-from causeweb.apis.webuser import Webuser
+from cause.api.management.core.database import Database
+from cause.api.management.core.session import Session
+from cause.api.management.resturls.base import Base
+from cause.api.management.resturls.webuser import Webuser
 from .inspection import Inspection
 from .building import Building
 
@@ -22,7 +22,7 @@ class InspectionAnswer(Base):
 		:param period_start: TIMESTAMP
 		:param period_end: TIMESTAMP
 		"""
-		with DB() as db:
+		with Database() as db:
 			data = db.get_all("""SELECT * FROM tbl_inspection_answer
 								  LEFT JOIN tbl_inspection ON tbl_inspection.id_inspection = tbl_inspection_answer.id_inspection
 		                          WHERE answered_on>=%s AND answered_on<%s;""", (period_start, period_end))
@@ -50,7 +50,7 @@ class InspectionAnswer(Base):
 		is_completed=False
 		id_inspection_answer = uuid.uuid4()
 
-		with DB() as db:
+		with Database() as db:
 			db.execute("""INSERT INTO
 						tbl_inspection_answer(id_inspection_answer, id_inspection, id_webuser, answered_on, has_refuse, reason_for_refusal, is_absent, is_seasonal, is_vacant)
 						VALUES(%s, %s, %s, NOW(), %s, %s, %s, %s, %s);""", (
@@ -81,7 +81,7 @@ class InspectionAnswer(Base):
 		"""
 		id_inspection_question = uuid.uuid4()
 
-		with DB() as db:
+		with Database() as db:
 			db.execute("""INSERT INTO
 						tbl_inspection_question(id_inspection_question, id_inspection_answer, id_survey_question, id_survey_choice, answer)
 						VALUES(%s, %s, %s, %s, %s);""", (

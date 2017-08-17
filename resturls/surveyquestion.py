@@ -39,10 +39,10 @@ class SurveyQuestion(Base):
 			'data': data
 		}
 
-	def create(self, args):
+	def create(self, body):
 		""" Create a question for a survey
 
-		:param args: {
+		:param body: {
 			id_survey: UUID,
 			title: JSON,
 			description: JSON,
@@ -53,19 +53,19 @@ class SurveyQuestion(Base):
 		if self.has_permission('RightTPI') is False:
 			self.no_access()
 
-		if 'title' not in args or 'description' not in args or 'id_survey' not in args:
+		if 'title' not in body or 'description' not in body or 'id_survey' not in body:
 			raise Exception("You need to pass a 'title', 'description' and 'id_survey'")
 
 		id_survey_question = uuid.uuid4()
-		id_language_content_title = MultiLang.set(args['title'], True)
-		id_language_content_description = MultiLang.set(args['description'], True)
-		next_question = args['id_survey_question_next'] if 'id_survey_question_next' in args and args['id_survey_question_next'] != '' else None
-		sequence = int(args['sequence']) if 'sequence' in args else 0
-		question_type = args['question_type'] if 'question_type' in args else 'text'
+		id_language_content_title = MultiLang.set(body['title'], True)
+		id_language_content_description = MultiLang.set(body['description'], True)
+		next_question = body['id_survey_question_next'] if 'id_survey_question_next' in body and body['id_survey_question_next'] != '' else None
+		sequence = int(body['sequence']) if 'sequence' in body else 0
+		question_type = body['question_type'] if 'question_type' in body else 'text'
 
 		with Database() as db:
 			db.insert(Table(
-				id_survey_question, args['id_survey'], id_language_content_title,
+				id_survey_question, body['id_survey'], id_language_content_title,
 				id_language_content_description, next_question, sequence, question_type))
 			db.commit()
 
@@ -74,31 +74,31 @@ class SurveyQuestion(Base):
 			'message': 'survey question successfully created'
 		}
 
-	def modify(self, args):
+	def modify(self, body):
 		if self.has_permission('RightTPI') is False:
 			self.no_access()
 
-		if 'id_survey_question' not in args:
+		if 'id_survey_question' not in body:
 			raise Exception("You need to pass a id_survey_question")
-		if 'step' in args:
-			return self.change_sequence(args)
+		if 'step' in body:
+			return self.change_sequence(body)
 
-		next_question = args['id_survey_question_next'] if 'id_survey_question_next' in args and args['id_survey_question_next'] != '' else None
+		next_question = body['id_survey_question_next'] if 'id_survey_question_next' in body and body['id_survey_question_next'] != '' else None
 
 		with Database() as db:
-			data = db.query(Table).get(args['id_survey_question'])
+			data = db.query(Table).get(body['id_survey_question'])
 			data.id_survey_question_next = next_question
 
-			if 'title' in args:
-				data.id_language_content_title = MultiLang.set(args['title'])
-			if 'description' in args:
-				data.id_language_content_description = MultiLang.set(args['description'])
-			if 'sequence' in args:
-				data.sequence = args['sequence']
-			if 'question_type' in args:
-				data.question_type = args['question_type']
-			if 'is_active' in args:
-				data.is_active = args['is_active']
+			if 'title' in body:
+				data.id_language_content_title = MultiLang.set(body['title'])
+			if 'description' in body:
+				data.id_language_content_description = MultiLang.set(body['description'])
+			if 'sequence' in body:
+				data.sequence = body['sequence']
+			if 'question_type' in body:
+				data.question_type = body['question_type']
+			if 'is_active' in body:
+				data.is_active = body['is_active']
 
 			db.commit()
 

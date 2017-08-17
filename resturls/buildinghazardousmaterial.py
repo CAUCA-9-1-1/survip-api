@@ -1,6 +1,6 @@
-from causeweb.storage.db import DB
-from causeweb.apis.base import Base
-
+import uuid
+from cause.api.management.core.database import Database
+from cause.api.management.resturls.base import Base
 
 class BuildingHazardousMaterial(Base):
 	mapping_method = {
@@ -16,7 +16,7 @@ class BuildingHazardousMaterial(Base):
 
 		:param id_building: UUID
 		"""
-		with DB() as db:
+		with Database() as db:
 			data = db.get_all("SELECT * FROM tbl_building_hazardous_material WHERE id_building=%s;", (id_building,))
 
 		return {
@@ -40,7 +40,7 @@ class BuildingHazardousMaterial(Base):
 			other_information: TEXT,
 		}
 		"""
-		with DB() as db:
+		with Database() as db:
 			db.execute("""INSERT INTO tbl_building_hazardous_material(
 							id_building, id_hazardous_material, quantity, container, capacity_container, id_unit_of_measure, place, floor,
 							gas_inlet, security_perimeter, other_information, is_active
@@ -71,7 +71,7 @@ class BuildingHazardousMaterial(Base):
 			other_information: TEXT,
 		}
 		"""
-		with DB() as db:
+		with Database() as db:
 			db.execute("""UPDATE tbl_building_hazardous_material SET
 							quantity=%s, container=%s, capacity_container=%s, id_unit_of_measure=%s, place=%s, floor=%s,
 							gas_inlet=%s, security_perimeter=%s, other_information=%s

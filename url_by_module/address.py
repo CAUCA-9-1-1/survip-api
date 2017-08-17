@@ -7,9 +7,15 @@ class UrlForAddress(ExecuteApiClass):
 	def __init__(self):
 		super(UrlForAddress, self).__init__()
 
-		RouteUrl('/lane/', 'Lane')
+		RouteUrl('/city/', 'City')
 		RouteUrl('/citylanes/', 'CityLanes')
+		RouteUrl('/citytype/', 'CityType')
+		RouteUrl('/country/', 'Country')
 		RouteUrl('/county/', 'County')
+		RouteUrl('/lane/', 'Lane')
+		RouteUrl('/lanelight/', 'LaneLight')
+		RouteUrl('/region/', 'Region')
+		RouteUrl('/state/', 'State')
 
 	@cherrypy.expose
 	def lane(self, *args, **kwargs):
