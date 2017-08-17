@@ -1,4 +1,3 @@
-import cherrypy
 from cause.api.management.core.route_url import RouteUrl
 from cause.api.management.api_url import ApiUrl as UrlForManagement
 from .url_by_module.address import UrlForAddress
@@ -15,18 +14,8 @@ class ApiUrl(UrlForSurvey, UrlForInterventionPlan, UrlForInspection,
 		super(ApiUrl, self).__init__()
 
 		RouteUrl('/firesafetydepartment/', 'FireSafetyDepartment')
+		RouteUrl('/firesafetydepartment/:id_fire_safety_department', 'FireSafetyDepartment')
 		RouteUrl('/webuserfiresafetydepartment/', 'WebuserFireSafetyDepartment')
 		RouteUrl('/webuserfiresafetydepartment/:id_webuser', 'WebuserFireSafetyDepartment')
 		RouteUrl('/picture/', 'Picture')
-
-	@cherrypy.expose
-	def firesafetydepartment(self, *args, **kwargs):
-		return self.call_method('FireSafetyDepartment', self.get_argument(args, kwargs))
-
-	@cherrypy.expose
-	def webuserfiresafetydepartment(self, *args, **kwargs):
-		return self.call_method('WebuserFireSafetyDepartment', self.get_argument(args, kwargs))
-
-	@cherrypy.expose
-	def picture(self, *args, **kwargs):
-		return self.call_method('Picture', self.get_argument(args, kwargs))
+		RouteUrl('/picture/:id_picture', 'Picture', 'GET', 'get')

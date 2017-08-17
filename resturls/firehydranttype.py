@@ -33,21 +33,22 @@ class FireHydrantType(Base):
 			'data': data
 		}
 
-	def create(self, args):
+
+	def create(self, body):
 		""" Create a new fire hydrant type
 
-		:param args: {
+		:param body: {
 			name: JSON
 		}
 		"""
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'name' not in args:
+		if 'name' not in body:
 			raise Exception("You need to pass a 'name'")
 
 		id_fire_hydrant_type = uuid.uuid4()
-		id_language_content = MultiLang.set(args['name'], True)
+		id_language_content = MultiLang.set(body['name'], True)
 
 		with Database() as db:
 			db.insert(Table(id_fire_hydrant_type, id_language_content))
@@ -58,10 +59,10 @@ class FireHydrantType(Base):
 			'message': 'fire hydrant type successfully created'
 		}
 
-	def modify(self, args):
+	def modify(self, body):
 		""" Modify a fire hydrant type
 
-		:param args: {
+		:param body: {
 			id_fire_hydrant_type: UUID,
 			name: JSON,
 			is_active: BOOLEAN,
@@ -70,16 +71,16 @@ class FireHydrantType(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'id_fire_hydrant_type' not in args:
+		if 'id_fire_hydrant_type' not in body:
 			raise Exception("You need to pass a id_fire_hydrant_type")
 
 		with Database() as db:
-			data = db.query(Table).get(args['id_fire_hydrant_type'])
+			data = db.query(Table).get(body['id_fire_hydrant_type'])
 
-			if 'name' in args:
-				data.id_language_content_name = MultiLang.set(args['name'])
-			if 'is_active' in args:
-				data.is_active = args['is_active']
+			if 'name' in body:
+				data.id_language_content_name = MultiLang.set(body['name'])
+			if 'is_active' in body:
+				data.is_active = body['is_active']
 
 			db.commit()
 

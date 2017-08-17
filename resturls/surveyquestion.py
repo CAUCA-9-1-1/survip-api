@@ -119,14 +119,14 @@ class SurveyQuestion(Base):
 			'message': 'survey question successfully removed'
 		}
 
-	def change_sequence(self, args):
+	def change_sequence(self, body):
 		with Database() as db:
-			question = db.query(Table).get(args['id_survey_question'])
-			question.sequence = (int(question.sequence) + int(args['step']))
+			question = db.query(Table).get(body['id_survey_question'])
+			question.sequence = (int(question.sequence) + int(body['step']))
 			db.execute("""UPDATE tbl_survey_question
 							SET sequence=(sequence + %s)
 							WHERE sequence=%s AND id_survey=%s;""", (
-				(int(args['step']) * -1), question.sequence, question.id_survey))
+				(int(body['step']) * -1), question.sequence, question.id_survey))
 			db.commit()
 
 		return {

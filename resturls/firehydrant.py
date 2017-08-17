@@ -33,10 +33,10 @@ class FireHydrant(Base):
 		}
 
 
-	def create(self, args):
+	def create(self, body):
 		""" Create a new fire hydrant
 
-		:param args: {
+		:param body: {
 			id_fire_hydrant_type: JSON,
 			id_lane: UUID,
 			id_intersection: UUID,
@@ -58,15 +58,15 @@ class FireHydrant(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'id_fire_hydrant_type' not in args or 'fire_hydrant_number' not in args:
+		if 'id_fire_hydrant_type' not in body or 'fire_hydrant_number' not in body:
 			raise Exception("You need to pass a 'fire_hydrant_number' and 'id_fire_hydrant_type'")
 
 		id_fire_hydrant = uuid.uuid4()
-		id_lane = args['id_lane'] if 'id_lane' in args else None
-		id_intersection = args['id_intersection'] if 'id_intersection' in args else None
+		id_lane = body['id_lane'] if 'id_lane' in body else None
+		id_intersection = body['id_intersection'] if 'id_intersection' in body else None
 
 		with Database() as db:
-			db.insert(Table(id_fire_hydrant, args['id_fire_hydrant_type'], args['fire_hydrant_number'],
+			db.insert(Table(id_fire_hydrant, body['id_fire_hydrant_type'], body['fire_hydrant_number'],
 			                id_lane, id_intersection))
 			db.commit()
 
@@ -75,10 +75,10 @@ class FireHydrant(Base):
 			'message': 'fire hydrant successfully created'
 		}
 
-	def modify(self, args):
+	def modify(self, body):
 		""" Modify a fire hydrant
 
-		:param args: {
+		:param body: {
 			id_fire_hydrant_type: JSON,
 			id_lane: UUID,
 			id_intersection: UUID,
@@ -101,46 +101,46 @@ class FireHydrant(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'id_fire_hydrant' not in args:
+		if 'id_fire_hydrant' not in body:
 			raise Exception("You need to pass a id_fire_hydrant")
 
 		with Database() as db:
-			data = db.query(Table).get(args['id_fire_hydrant'])
+			data = db.query(Table).get(body['id_fire_hydrant'])
 
-			if 'id_fire_hydrant_type' in args:
-				data.id_fire_hydrant_type = args['id_fire_hydrant_type']
-			if 'fire_hydrant_number' in args:
-				data.fire_hydrant_number = args['fire_hydrant_number']
-			if 'id_lane' in args:
-				data.id_lane = args['id_lane']
-			if 'id_intersection' in args:
-				data.id_intersection = args['id_intersection']
-			if 'altitude' in args:
-				data.altitude = args['altitude']
-			if 'id_operator_type_rate' in args:
-				data.id_operator_type_rate = args['id_operator_type_rate']
-			if 'from_rate' in args:
-				data.from_rate = args['from_rate']
-			if 'to_rate' in args:
-				data.to_rate = args['to_rate']
-			if 'id_unit_of_measure_rate' in args:
-				data.id_unit_of_measure_rate = args['id_unit_of_measure_rate']
-			if 'id_operator_type_pressure' in args:
-				data.id_operator_type_pressure = args['id_operator_type_pressure']
-			if 'from_pressure' in args:
-				data.from_pressure = args['from_pressure']
-			if 'to_pressure' in args:
-				data.to_pressure = args['to_pressure']
-			if 'id_unit_of_measure_pressure' in args:
-				data.id_unit_of_measure_pressure = args['id_unit_of_measure_pressure']
-			if 'color' in args:
-				data.color = args['color']
-			if 'comments' in args:
-				data.comments = args['comments']
-			if 'physical_position' in args:
-				data.physical_position = args['physical_position']
-			if 'is_active' in args:
-				data.is_active = args['is_active']
+			if 'id_fire_hydrant_type' in body:
+				data.id_fire_hydrant_type = body['id_fire_hydrant_type']
+			if 'fire_hydrant_number' in body:
+				data.fire_hydrant_number = body['fire_hydrant_number']
+			if 'id_lane' in body:
+				data.id_lane = body['id_lane']
+			if 'id_intersection' in body:
+				data.id_intersection = body['id_intersection']
+			if 'altitude' in body:
+				data.altitude = body['altitude']
+			if 'id_operator_type_rate' in body:
+				data.id_operator_type_rate = body['id_operator_type_rate']
+			if 'from_rate' in body:
+				data.from_rate = body['from_rate']
+			if 'to_rate' in body:
+				data.to_rate = body['to_rate']
+			if 'id_unit_of_measure_rate' in body:
+				data.id_unit_of_measure_rate = body['id_unit_of_measure_rate']
+			if 'id_operator_type_pressure' in body:
+				data.id_operator_type_pressure = body['id_operator_type_pressure']
+			if 'from_pressure' in body:
+				data.from_pressure = body['from_pressure']
+			if 'to_pressure' in body:
+				data.to_pressure = body['to_pressure']
+			if 'id_unit_of_measure_pressure' in body:
+				data.id_unit_of_measure_pressure = body['id_unit_of_measure_pressure']
+			if 'color' in body:
+				data.color = body['color']
+			if 'comments' in body:
+				data.comments = body['comments']
+			if 'physical_position' in body:
+				data.physical_position = body['physical_position']
+			if 'is_active' in body:
+				data.is_active = body['is_active']
 
 			db.commit()
 

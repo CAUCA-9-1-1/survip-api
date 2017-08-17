@@ -24,10 +24,10 @@ class BuildingContact(Base):
 			'data': data
 		}
 
-	def assign(self, args):
+	def assign(self, body):
 		""" Assign new contact to building
 
-		:param args: {
+		:param body: {
 			id_building: UUID,
 			first_name: STRING,
 			last_name: STRING,
@@ -44,18 +44,18 @@ class BuildingContact(Base):
 							id_building_contact, id_building, first_name, last_name, phone_number, phone_extension, pager_number, pager_code,
 							cellular_number, other_number, created_on, is_active
 						  ) VALUES(uuid_generate_v4(), %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW(), True);""", (
-				args['id_building'], args['first_name'], args['last_name'], args['phone_number'], args['phone_extension'],
-				args['pager_number'], args['pager_code'], args['cellular_number'], args['other_number']
+				body['id_building'], body['first_name'], body['last_name'], body['phone_number'], body['phone_extension'],
+				body['pager_number'], body['pager_code'], body['cellular_number'], body['other_number']
 			))
 
 		return {
 			'message': 'building contact successfully assigned'
 		}
 
-	def modify(self, args):
+	def modify(self, body):
 		""" Modify all information for building contact
 
-		:param args: {
+		:param body: {
 			id_building_contact: UUID,
 			first_name: STRING,
 			last_name: STRING,
@@ -72,8 +72,8 @@ class BuildingContact(Base):
 							first_name=%s, last_name=%s, phone_number=%s, phone_extension=%s, pager_number=%s, pager_code=%s,
 							cellular_number=%s, other_number=%s
 						  WHERE id_building_contact=%s;""", (
-				args['first_name'], args['last_name'], args['phone_number'], args['phone_extension'], args['pager_number'],
-				args['pager_code'], args['cellular_number'], args['other_number'], args['id_building_contact']
+				body['first_name'], body['last_name'], body['phone_number'], body['phone_extension'], body['pager_number'],
+				body['pager_code'], body['cellular_number'], body['other_number'], body['id_building_contact']
 			))
 
 		return {

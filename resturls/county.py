@@ -34,10 +34,10 @@ class County(Base):
 			'data': data
 		}
 
-	def create(self, args):
+	def create(self, body):
 		""" Create a new county
 
-		:param args: {
+		:param body: {
 			name: JSON,
 			id_state: UUID,
 			id_region: UUID
@@ -46,15 +46,15 @@ class County(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'id_state' not in args or 'name' not in args:
+		if 'id_state' not in body or 'name' not in body:
 			raise Exception("You need to pass a 'name' and 'id_state'")
 
 		id_county = uuid.uuid4()
-		id_language_content = MultiLang.set(args['name'], True)
-		id_region = args['id_region'] if 'id_region' in args else None
+		id_language_content = MultiLang.set(body['name'], True)
+		id_region = body['id_region'] if 'id_region' in body else None
 
 		with Database() as db:
-			db.insert(Table(id_county, id_language_content, args['id_state'], id_region))
+			db.insert(Table(id_county, id_language_content, body['id_state'], id_region))
 			db.commit()
 
 		return {
@@ -62,10 +62,10 @@ class County(Base):
 			'message': 'county successfully created'
 		}
 
-	def modify(self, args):
+	def modify(self, body):
 		""" Modify a county
 
-		:param args: {
+		:param body: {
 			id_county: UUID,
 			name: JSON,
 			id_state: UUID,
@@ -76,20 +76,20 @@ class County(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'id_county' not in args:
+		if 'id_county' not in body:
 			raise Exception("You need to pass a id_county")
 
 		with Database() as db:
-			data = db.query(Table).get(args['id_county'])
+			data = db.query(Table).get(body['id_county'])
 
-			if 'name' in args:
-				data.id_language_content_name = MultiLang.set(args['name'])
-			if 'id_state' in args:
-				data.id_state = args['id_state']
-			if 'id_region' in args:
-				data.id_region = args['id_region']
-			if 'is_active' in args:
-				data.is_active = args['is_active']
+			if 'name' in body:
+				data.id_language_content_name = MultiLang.set(body['name'])
+			if 'id_state' in body:
+				data.id_state = body['id_state']
+			if 'id_region' in body:
+				data.id_region = body['id_region']
+			if 'is_active' in body:
+				data.is_active = body['is_active']
 
 			db.commit()
 

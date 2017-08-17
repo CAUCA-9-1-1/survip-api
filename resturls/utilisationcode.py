@@ -33,10 +33,10 @@ class UtilisationCode(Base):
 			'data': data
 		}
 
-	def create(self, args):
+	def create(self, body):
 		""" Create a new utilisation code
 
-		:param args: {
+		:param body: {
 			name: JSON,
 			cubf: STRING,
 			scian: STRING,
@@ -45,15 +45,15 @@ class UtilisationCode(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'cubf' not in args or 'name' not in args:
+		if 'cubf' not in body or 'name' not in body:
 			raise Exception("You need to pass a 'name' and 'cubf'")
 
 		id_utilisation_code = uuid.uuid4()
-		id_language_content = MultiLang.set(args['name'], True)
-		scian = args['scian'] if 'scian' in args else None
+		id_language_content = MultiLang.set(body['name'], True)
+		scian = body['scian'] if 'scian' in body else None
 
 		with Database() as db:
-			db.insert(Table(id_utilisation_code, id_language_content, args['cubf'], scian))
+			db.insert(Table(id_utilisation_code, id_language_content, body['cubf'], scian))
 			db.commit()
 
 		return {
@@ -61,10 +61,10 @@ class UtilisationCode(Base):
 			'message': 'utilisation code successfully created'
 		}
 
-	def modify(self, args):
+	def modify(self, body):
 		""" Modify a utilisation code
 
-		:param args: {
+		:param body: {
 			id_utilisation_code: UUID,
 			name: JSON,
 			cubf: STRING,
@@ -75,20 +75,20 @@ class UtilisationCode(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'id_utilisation_code' not in args:
+		if 'id_utilisation_code' not in body:
 			raise Exception("You need to pass a id_utilisation_code")
 
 		with Database() as db:
-			data = db.query(Table).get(args['id_utilisation_code'])
+			data = db.query(Table).get(body['id_utilisation_code'])
 
-			if 'name' in args:
-				data.id_language_content_name = MultiLang.set(args['name'])
-			if 'cubf' in args:
-				data.cubf = args['cubf']
-			if 'scian' in args:
-				data.scian = args['scian']
-			if 'is_active' in args:
-				data.is_active = args['is_active']
+			if 'name' in body:
+				data.id_language_content_name = MultiLang.set(body['name'])
+			if 'cubf' in body:
+				data.cubf = body['cubf']
+			if 'scian' in body:
+				data.scian = body['scian']
+			if 'is_active' in body:
+				data.is_active = body['is_active']
 
 			db.commit()
 

@@ -33,7 +33,7 @@ class State(Base):
 			'data': data
 		}
 
-	def create(self, args):
+	def create(self, body):
 		""" Create a new state
 
 		:param args: {
@@ -45,15 +45,15 @@ class State(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'id_country' not in args or 'name' not in args:
+		if 'id_country' not in body or 'name' not in body:
 			raise Exception("You need to pass a 'name' and 'id_country'")
 
 		id_state = uuid.uuid4()
-		id_language_content = MultiLang.set(args['name'], True)
-		ansi_code = args['ansi_code'] if 'ansi_code' in args else None
+		id_language_content = MultiLang.set(body['name'], True)
+		ansi_code = body['ansi_code'] if 'ansi_code' in body else None
 
 		with Database() as db:
-			db.insert(Table(id_state, id_language_content, args['id_country'], ansi_code))
+			db.insert(Table(id_state, id_language_content, body['id_country'], ansi_code))
 			db.commit()
 
 		return {
@@ -61,10 +61,10 @@ class State(Base):
 			'message': 'state successfully created'
 		}
 
-	def modify(self, args):
+	def modify(self, body):
 		""" Modify a state
 
-		:param args: {
+		:param body: {
 			id_state: UUID,
 			name: JSON,
 			id_country: UUID,
@@ -75,21 +75,21 @@ class State(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'id_state' not in args:
+		if 'id_state' not in body:
 			raise Exception("You need to pass a id_state")
 
 		with Database() as db:
-			data = db.query(Table).get(args['id_state'])
+			data = db.query(Table).get(body['id_state'])
 
-			if 'name' in args:
-				data.id_language_content_name = MultiLang.set(args['name'])
+			if 'name' in body:
+				data.id_language_content_name = MultiLang.set(body['name'])
 
-			if 'id_country' in args:
-				data.id_country = args['id_country']
-			if 'ansi_code' in args:
-				data.ansi_code = args['ansi_code']
-			if 'is_active' in args:
-				data.is_active = args['is_active']
+			if 'id_country' in body:
+				data.id_country = body['id_country']
+			if 'ansi_code' in body:
+				data.ansi_code = body['ansi_code']
+			if 'is_active' in body:
+				data.is_active = body['is_active']
 
 			db.commit()
 

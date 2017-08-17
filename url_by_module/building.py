@@ -1,4 +1,3 @@
-import cherrypy
 from cause.api.management.core.route_url import RouteUrl
 from cause.api.management.core.execute_api_class import ExecuteApiClass
 
@@ -8,47 +7,28 @@ class UrlForBuilding(ExecuteApiClass):
 		super(UrlForBuilding, self).__init__()
 
 		RouteUrl('/building/', 'Building')
+		RouteUrl('/building/:id_building', 'Building')
+
 		RouteUrl('/buildingcontact/', 'BuildingContact')
+		RouteUrl('/buildingcontact/:id_building', 'BuildingContact', 'GET', 'get')
+		RouteUrl('/buildingcontact/:id_building_contact', 'BuildingContact', 'DELETE', 'remove')
+
 		RouteUrl('/buildinghazardousmaterial/', 'BuildingHazardousMaterial')
+		RouteUrl('/buildinghazardousmaterial/:id_building', 'BuildingHazardousMaterial', 'GET', 'get')
+
 		RouteUrl('/buildingpersonrequiringassistance/', 'BuildingPersonRequiringAssistance')
+		RouteUrl('/buildingpersonrequiringassistance/:id_building', 'BuildingPersonRequiringAssistance', 'GET', 'get')
+		RouteUrl('/buildingpersonrequiringassistance/:id_building_person_requiring_assistance', 'BuildingPersonRequiringAssistance', 'DELETE', 'remove')
+
 		RouteUrl('/hazardousmaterial/', 'HazardousMaterial')
-		RouteUrl('/risklevel/', 'RiskLevel')
-		RouteUrl('/risklevellist/', 'RiskLevelList')
-		RouteUrl('/utilisationcode/', 'UtilisationCode')
+		RouteUrl('/hazardousmaterial/:id_hazardous_material', 'HazardousMaterial')
+
 		RouteUrl('/personrequiringassistancetype/', 'PersonRequiringAssistanceType')
+		RouteUrl('/personrequiringassistancetype/:id_person_requiring_assistance_type', 'PersonRequiringAssistanceType')
 
-	@cherrypy.expose
-	def building(self, *args, **kwargs):
-		return self.call_method('Building', self.get_argument(args, kwargs))
+		RouteUrl('/risklevel/', 'RiskLevel')
+		RouteUrl('/risklevel/:id_risk_level', 'RiskLevel')
+		RouteUrl('/risklevellist/:language', 'RiskLevelList', 'GET', 'get')
 
-	@cherrypy.expose
-	def buildingcontact(self, *args, **kwargs):
-		return self.call_method('BuildingContact', self.get_argument(args, kwargs))
-
-	@cherrypy.expose
-	def buildingpersonrequiringassistance(self, *args, **kwargs):
-		return self.call_method('BuildingPersonRequiringAssistance', self.get_argument(args, kwargs))
-
-	@cherrypy.expose
-	def buildinghazardousmaterial(self, *args, **kwargs):
-		return self.call_method('BuildingHazardousMaterial', self.get_argument(args, kwargs))
-
-	@cherrypy.expose
-	def risklevel(self, *args, **kwargs):
-		return self.call_method('RiskLevel', self.get_argument(args, kwargs))
-
-	@cherrypy.expose
-	def risklevellist(self, *args, **kwargs):
-		return self.call_method('RiskLevelList', self.get_argument(args, kwargs))
-
-	@cherrypy.expose
-	def utilisationcode(self, *args, **kwargs):
-		return self.call_method('UtilisationCode', self.get_argument(args, kwargs))
-
-	@cherrypy.expose
-	def personrequiringassistancetype(self, *args, **kwargs):
-		return self.call_method('PersonRequiringAssistanceType', self.get_argument(args, kwargs))
-
-	@cherrypy.expose
-	def hazardousmaterial(self, *args, **kwargs):
-		return self.call_method('HazardousMaterial', self.get_argument(args, kwargs))
+		RouteUrl('/utilisationcode/', 'UtilisationCode')
+		RouteUrl('/utilisationcode/:id_utilisation_code', 'UtilisationCode')

@@ -33,10 +33,10 @@ class Country(Base):
 			'data': data
 		}
 
-	def create(self, args):
+	def create(self, body):
 		""" Create a new country
 
-		:param args: {
+		:param body: {
 			name: JSON,
 			code_alpha2: STRING,
 			code_alpha3: STRING
@@ -45,13 +45,13 @@ class Country(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'name' not in args:
+		if 'name' not in body:
 			raise Exception("You need to pass a 'name'")
 
 		id_country = uuid.uuid4()
-		id_language_content = MultiLang.set(args['name'], True)
-		code_alpha2 = args['code_alpha2'] if 'code_alpha2' in args else None
-		code_alpha3 = args['code_alpha3'] if 'code_alpha3' in args else None
+		id_language_content = MultiLang.set(body['name'], True)
+		code_alpha2 = body['code_alpha2'] if 'code_alpha2' in body else None
+		code_alpha3 = body['code_alpha3'] if 'code_alpha3' in body else None
 
 		with Database() as db:
 			db.insert(Table(id_country, id_language_content, code_alpha2, code_alpha3))
@@ -62,10 +62,10 @@ class Country(Base):
 			'message': 'country successfully created'
 		}
 
-	def modify(self, args):
+	def modify(self, body):
 		""" Modify a country
 
-		:param args: {
+		:param body: {
 			id_country: UUID,
 			name: JSON,
 			code_alpha2: STRING,
@@ -76,23 +76,23 @@ class Country(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'id_country' not in args:
+		if 'id_country' not in body:
 			raise Exception("You need to pass a id_country")
 
 		with Database() as db:
-			data = db.query(Table).get(args['id_country'])
+			data = db.query(Table).get(body['id_country'])
 
-			if 'name' in args:
-				data.id_language_content_name = MultiLang.set(args['name'])
+			if 'name' in body:
+				data.id_language_content_name = MultiLang.set(body['name'])
 
-			if 'code_alpha2' in args:
-				data.code_alpha2 = args['code_alpha2']
-			if 'code_alpha3' in args:
-				data.code_alpha3 = args['code_alpha3']
-			if 'is_active' in args:
-				data.is_active = args['is_active']
+			if 'code_alpha2' in body:
+				data.code_alpha2 = body['code_alpha2']
+			if 'code_alpha3' in body:
+				data.code_alpha3 = body['code_alpha3']
+			if 'is_active' in body:
+				data.is_active = body['is_active']
 
-			db.commit();
+			db.commit()
 
 		return {
 			'message': 'country successfully modified'

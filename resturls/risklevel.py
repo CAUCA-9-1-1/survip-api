@@ -35,10 +35,10 @@ class RiskLevel(Base):
 		}
 
 
-	def create(self, args):
+	def create(self, body):
 		""" Create a new risk level
 
-		:param args: {
+		:param body: {
 			name: JSON,
 			sequence: INTEGER,
 			code: INTEGER,
@@ -48,16 +48,16 @@ class RiskLevel(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'code' not in args or 'name' not in args:
+		if 'code' not in body or 'name' not in body:
 			raise Exception("You need to pass a 'name' and 'code'")
 
 		id_risk_level = uuid.uuid4()
-		id_language_content = MultiLang.set(args['name'], True)
-		sequence = args['sequence'] if 'sequence' in args else None
-		color = args['color'] if 'color' in args else None
+		id_language_content = MultiLang.set(body['name'], True)
+		sequence = body['sequence'] if 'sequence' in body else None
+		color = body['color'] if 'color' in body else None
 
 		with Database() as db:
-			db.insert(Table(id_risk_level, id_language_content, sequence, args['code'], color))
+			db.insert(Table(id_risk_level, id_language_content, sequence, body['code'], color))
 			db.commit()
 
 		return {
@@ -65,10 +65,10 @@ class RiskLevel(Base):
 			'message': 'risk level successfully created'
 		}
 
-	def modify(self, args):
+	def modify(self, body):
 		""" Modify a risk level
 
-		:param args: {
+		:param body: {
 			id_risk_level: UUID,
 			name: JSON,
 			sequence: INTEGER,
@@ -80,22 +80,22 @@ class RiskLevel(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'id_risk_level' not in args:
+		if 'id_risk_level' not in body:
 			raise Exception("You need to pass a id_risk_level")
 
 		with Database() as db:
-			data = db.query(Table).get(args['id_risk_level'])
+			data = db.query(Table).get(body['id_risk_level'])
 
-			if 'name' in args:
-				data.id_language_content_name = MultiLang.set(args['name'])
-			if 'sequence' in args:
-				data.sequence = args['sequence']
-			if 'code' in args:
-				data.code = args['code']
-			if 'color' in args:
-				data.color = args['color']
-			if 'is_active' in args:
-				data.is_active = args['is_active']
+			if 'name' in body:
+				data.id_language_content_name = MultiLang.set(body['name'])
+			if 'sequence' in body:
+				data.sequence = body['sequence']
+			if 'code' in body:
+				data.code = body['code']
+			if 'color' in body:
+				data.color = body['color']
+			if 'is_active' in body:
+				data.is_active = body['is_active']
 
 			db.commit()
 

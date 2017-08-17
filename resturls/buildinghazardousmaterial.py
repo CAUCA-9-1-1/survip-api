@@ -23,10 +23,10 @@ class BuildingHazardousMaterial(Base):
 			'data': data
 		}
 
-	def assign(self, args):
+	def assign(self, body):
 		""" Assign new hazardous material to building
 
-		:param args: {
+		:param body: {
 			id_building: UUID,
 			id_hazardous_material: UUID,
 			quantity: INTEGER,
@@ -45,19 +45,19 @@ class BuildingHazardousMaterial(Base):
 							id_building, id_hazardous_material, quantity, container, capacity_container, id_unit_of_measure, place, floor,
 							gas_inlet, security_perimeter, other_information, is_active
 						  ) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, True);""", (
-				args['id_building'], args['id_hazardous_material'], args['quantity'], args['container'], args['capacity_container'],
-				args['id_unit_of_measure'], args['place'], args['floor'], args['gas_inlet'], args['security_perimeter'],
-				args['other_information']
+				body['id_building'], body['id_hazardous_material'], body['quantity'], body['container'], body['capacity_container'],
+				body['id_unit_of_measure'], body['place'], body['floor'], body['gas_inlet'], body['security_perimeter'],
+				body['other_information']
 			))
 
 		return {
 			'message': 'building hazardous material successfully assigned'
 		}
 
-	def modify(self, args):
+	def modify(self, body):
 		""" Modify all information for hazardous material
 
-		:param args: {
+		:param body: {
 			id_building: UUID,
 			id_hazardous_material: UUID,
 			quantity: INTEGER,
@@ -76,9 +76,9 @@ class BuildingHazardousMaterial(Base):
 							quantity=%s, container=%s, capacity_container=%s, id_unit_of_measure=%s, place=%s, floor=%s,
 							gas_inlet=%s, security_perimeter=%s, other_information=%s
 						  WHERE id_building=%s and id_hazardous_material=%s;""", (
-				args['quantity'], args['container'], args['capacity_container'], args['id_unit_of_measure'], args['place'], args['floor'],
-				args['gas_inlet'], args['security_perimeter'], args['other_information'], args['id_building'],
-				args['id_hazardous_material']
+				body['quantity'], body['container'], body['capacity_container'], body['id_unit_of_measure'], body['place'], body['floor'],
+				body['gas_inlet'], body['security_perimeter'], body['other_information'], body['id_building'],
+				body['id_hazardous_material']
 			))
 
 		return {

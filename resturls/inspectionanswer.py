@@ -35,10 +35,10 @@ class InspectionAnswer(Base):
 			'data': data
 		}
 
-	def answer(self, args):
+	def answer(self, body):
 		""" Add an answer to a survey
 
-		:param args: {
+		:param body: {
 			id_inspection: UUID,
 			has_refuse: BOOLEAN,
 			reason_for_refusal: String,
@@ -54,13 +54,13 @@ class InspectionAnswer(Base):
 			db.execute("""INSERT INTO
 						tbl_inspection_answer(id_inspection_answer, id_inspection, id_webuser, answered_on, has_refuse, reason_for_refusal, is_absent, is_seasonal, is_vacant)
 						VALUES(%s, %s, %s, NOW(), %s, %s, %s, %s, %s);""", (
-				id_inspection_answer, args['id_inspection'], Session.get('userId'), args['has_refuse'], args['reason_for_refusal'], args['is_absent'], args['is_seasonal'], args['is_vacant']
+				id_inspection_answer, body['id_inspection'], Session.get('userId'), body['has_refuse'], body['reason_for_refusal'], body['is_absent'], body['is_seasonal'], body['is_vacant']
 			))
 
-		if args['has_refuse'] is False and args['is_absent'] is False:
+		if body['has_refuse'] is False and body['is_absent'] is False:
 			is_completed = True
 			Inspection().complete({
-				'id_inspection': args['id_inspection']
+				'id_inspection': body['id_inspection']
 			})
 
 		return {
@@ -69,10 +69,10 @@ class InspectionAnswer(Base):
 			'message': 'survey successfully answered'
 		}
 
-	def answer_question(self, args):
+	def answer_question(self, body):
 		""" Add an answer to a question of survey
 
-		:param args: {
+		:param body: {
 			id_inspection_answer: UUID,
 			id_survey_question: UUID,
 			id_survey_choice: UUID,
@@ -85,7 +85,7 @@ class InspectionAnswer(Base):
 			db.execute("""INSERT INTO
 						tbl_inspection_question(id_inspection_question, id_inspection_answer, id_survey_question, id_survey_choice, answer)
 						VALUES(%s, %s, %s, %s, %s);""", (
-				id_inspection_question, args['id_inspection_answer'], args['id_survey_question'], args['id_survey_choice'], args['answer']
+				id_inspection_question, body['id_inspection_answer'], body['id_survey_question'], body['id_survey_choice'], body['answer']
 			))
 
 		return {
