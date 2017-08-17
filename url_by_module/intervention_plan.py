@@ -8,52 +8,24 @@ class UrlForInterventionPlan(ExecuteApiClass):
 
 		RouteUrl('/alarmpaneltype/', 'AlarmPanelType')
 		RouteUrl('/alarmpaneltype/:id_alarm_panel_type', 'AlarmPanelType')
+
 		RouteUrl('/constructiontype/', 'ConstructionType')
 		RouteUrl('/constructiontype/:id_construction_type', 'ConstructionType')
+
 		RouteUrl('/interventionplangeneralinformations/', 'InterventionPlanGeneralInformations')
 		RouteUrl('/interventionplangeneralinformations/:language/:id_intervention_plan', 'InterventionPlanGeneralInformations', 'GET', 'get')
+
 		RouteUrl('/interventionplanbuildings/:id_intervention_plan', 'InterventionPlanBuildings', 'GET', 'get')
 
-	@cherrypy.expose
-	def alarmpaneltype(self, *args, **kwargs):
-		return self.call_method('AlarmPanelType', self.get_argument(args, kwargs))
+		RouteUrl('/interventionplancourse/', 'InterventionPlanCourse')
+		RouteUrl('/interventionplancourse/:id_intervention_plan_course', 'InterventionPlanCourse')
+		RouteUrl('/interventionplancourseforlist/:id_intervention_plan', 'InterventionPlanCourseForList', 'GET', 'get')
 
-	@cherrypy.expose
-	def constructiontype(self, *args, **kwargs):
-		return self.call_method('ConstructionType', self.get_argument(args, kwargs))
+		RouteUrl('/interventionplancourselane/', 'InterventionPlanCourseLane')
+		RouteUrl('/interventionplancourselane/:id_intervention_plan_course_lane', 'InterventionPlanCourseLane')
+		RouteUrl('/interventionplancourselaneforlist/:id_intervention_plan_course', 'InterventionPlanCourseLaneForList', 'GET', 'get')
 
-	@cherrypy.expose
-	def interventionplangeneralinformations(self, *args, **kwargs):
-		return self.call_method('InterventionPlanGeneralInformations', self.get_argument(args, kwargs))
+		RouteUrl('/firestation/', 'Firestation')
+		RouteUrl('/firestationforlist/:id_firestation', 'FirestationForList', 'GET', 'get')
 
-	@cherrypy.expose
-	def interventionplanbuildings(self, *args, **kwargs):
-		return self.call_method('InterventionPlanBuildings', self.get_argument(args, kwargs))
-
-	@cherrypy.expose
-	def interventionplancourse(self, *args, **kwargs):
-		return self.call_method('InterventionPlanCourse', self.get_argument(args, kwargs))
-
-	@cherrypy.expose
-	def interventionplancourseforlist(self, *args, **kwargs):
-		return self.call_method('InterventionPlanCourseForList', self.get_argument(args, kwargs))
-
-	@cherrypy.expose
-	def interventionplancourselane(self, *args, **kwargs):
-		return self.call_method('InterventionPlanCourseLane', self.get_argument(args, kwargs))
-
-	@cherrypy.expose
-	def interventionplancourselaneforlist(self, *args, **kwargs):
-		return self.call_method('InterventionPlanCourseLaneForList', self.get_argument(args, kwargs))
-
-	@cherrypy.expose
-	def firestation(self, *args, **kwargs):
-		return self.call_method("Firestation", self.get_argument(args, kwargs))
-
-	@cherrypy.expose
-	def firestationforlist(self, *args, **kwargs):
-		return self.call_method("FirestationForList", self.get_argument(args, kwargs))
-
-	@cherrypy.expose
-	def routedirection(self, *args, **kwargs):
-		return self.call_method("RouteDirection", self.get_argument(args, kwargs))
+		RouteUrl('/routedirection/', 'RouteDirection', 'GET', 'get')
