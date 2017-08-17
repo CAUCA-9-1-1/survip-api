@@ -57,7 +57,7 @@ class InterventionPlanCourse(Base):
 		id_intervention_plan_course = uuid.uuid4()
 
 		with Database() as db:
-			db.insert(Table(id_intervention_plan_course, args['id_intervention_plan_course'], args['id_firestation']))
+			db.insert(Table(id_intervention_plan_course, args['id_intervention_plan'], args['id_firestation']))
 			db.commit()
 
 		return {
@@ -74,7 +74,6 @@ class InterventionPlanCourse(Base):
 
 			if 'id_firestation' in args:
 				data.id_firestation = args['id_firestation']
-				print('id firestation');
 			if 'is_active' in args:
 				data.is_active = args['is_active']
 
@@ -82,7 +81,7 @@ class InterventionPlanCourse(Base):
 
 		return {'message': "Intervention plan's course successfully modified."}
 
-	def delete(self, id_intervention_plan_course):
+	def remove(self, id_intervention_plan_course):
 		with Database() as db:
 			data = db.query(Table).get(id_intervention_plan_course)
 			data.is_active = False
