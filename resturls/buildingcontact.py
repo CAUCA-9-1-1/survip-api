@@ -1,5 +1,6 @@
-from causeweb.storage.db import DB
-from causeweb.apis.base import Base
+import uuid
+from cause.api.management.core.database import Database
+from cause.api.management.resturls.base import Base
 
 
 class BuildingContact(Base):
@@ -16,7 +17,7 @@ class BuildingContact(Base):
 
 		:param id_building: UUID
 		"""
-		with DB() as db:
+		with Database() as db:
 			data = db.get_all("SELECT * FROM tbl_building_contact WHERE id_building=%s;", (id_building,))
 
 		return {
@@ -38,7 +39,7 @@ class BuildingContact(Base):
 			other_number: INTEGER
 		}
 		"""
-		with DB() as db:
+		with Database() as db:
 			db.execute("""INSERT INTO tbl_building_contact (
 							id_building_contact, id_building, first_name, last_name, phone_number, phone_extension, pager_number, pager_code,
 							cellular_number, other_number, created_on, is_active
@@ -66,7 +67,7 @@ class BuildingContact(Base):
 			other_number: INTEGER,
 		}
 		"""
-		with DB() as db:
+		with Database() as db:
 			db.execute("""UPDATE tbl_building_contact SET
 							first_name=%s, last_name=%s, phone_number=%s, phone_extension=%s, pager_number=%s, pager_code=%s,
 							cellular_number=%s, other_number=%s
@@ -84,7 +85,7 @@ class BuildingContact(Base):
 
 		:param id_building_contact: UUID
 		"""
-		with DB() as db:
+		with Database() as db:
 			db.execute("UPDATE tbl_building_contact SET is_active=%s WHERE id_building_contact=%;", (
 				False, id_building_contact
 			))

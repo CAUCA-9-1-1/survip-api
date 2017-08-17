@@ -1,9 +1,19 @@
 import cherrypy
-
+from cause.api.management.core.route_url import RouteUrl
 from cause.api.management.core.execute_api_class import ExecuteApiClass
 
 
 class UrlForInspection(ExecuteApiClass):
+	def __init__(self):
+		super(UrlForInspection, self).__init__()
+
+		RouteUrl('/inspection/', 'Inspection')
+		RouteUrl('/inspectionanswer/', 'InspectionAnswer')
+		RouteUrl('/inspectionbuilding/', 'InspectionBuilding')
+		RouteUrl('/inspectionbyuser/', 'InspectionByUser')
+		RouteUrl('/inspectionreport/', 'InspectionReport')
+		RouteUrl('/inspectionstatistic/', 'InspectionStatistic')
+
 	@cherrypy.expose
 	def inspection(self, *args, **kwargs):
 		return self.call_method('Inspection', self.get_argument(args, kwargs))

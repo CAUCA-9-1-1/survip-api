@@ -1,9 +1,17 @@
 import cherrypy
-
+from cause.api.management.core.route_url import RouteUrl
 from cause.api.management.core.execute_api_class import ExecuteApiClass
 
 
 class UrlForInterventionPlan(ExecuteApiClass):
+	def __init__(self):
+		super(UrlForInterventionPlan, self).__init__()
+
+		RouteUrl('/alarmpaneltype/', 'AlarmPanelType')
+		RouteUrl('/constructiontype/', 'ConstructionType')
+		RouteUrl('/interventionplangeneralinformations/', 'InterventionPlanGeneralInformations')
+		RouteUrl('/interventionplanbuildings/', 'InterventionPlanBuildings')
+
 	@cherrypy.expose
 	def alarmpaneltype(self, *args, **kwargs):
 		return self.call_method('AlarmPanelType', self.get_argument(args, kwargs))

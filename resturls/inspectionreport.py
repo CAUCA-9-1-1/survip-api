@@ -1,7 +1,7 @@
 import pdfkit
-from causeweb import config
-from causeweb.storage.db import DB
-from causeweb.apis.base import Base
+from cause.api.management.config import setup as config
+from cause.api.management.core.database import Database
+from cause.api.management.resturls.base import Base
 
 
 class InspectionReport(Base):
@@ -21,7 +21,7 @@ class InspectionReport(Base):
 		if self.has_permission('RightTPI') is False:
 			self.no_access()
 
-		with DB() as db:
+		with Database() as db:
 			data = db.get_row("""SELECT * FROM tbl_inspection_answer
 								  LEFT JOIN tbl_inspection ON tbl_inspection.id_inspection = tbl_inspection_answer.id_inspection
 		                          WHERE id_inspection_answer=%s;""", (id_inspection_answer,))

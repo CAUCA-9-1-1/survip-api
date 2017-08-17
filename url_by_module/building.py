@@ -1,9 +1,22 @@
 import cherrypy
-
+from cause.api.management.core.route_url import RouteUrl
 from cause.api.management.core.execute_api_class import ExecuteApiClass
 
 
 class UrlForBuilding(ExecuteApiClass):
+	def __init__(self):
+		super(UrlForBuilding, self).__init__()
+
+		RouteUrl('/building/', 'Building')
+		RouteUrl('/buildingcontact/', 'BuildingContact')
+		RouteUrl('/buildinghazardousmaterial/', 'BuildingHazardousMaterial')
+		RouteUrl('/buildingpersonrequiringassistance/', 'BuildingPersonRequiringAssistance')
+		RouteUrl('/hazardousmaterial/', 'HazardousMaterial')
+		RouteUrl('/risklevel/', 'RiskLevel')
+		RouteUrl('/risklevellist/', 'RiskLevelList')
+		RouteUrl('/utilisationcode/', 'UtilisationCode')
+		RouteUrl('/personrequiringassistancetype/', 'PersonRequiringAssistanceType')
+
 	@cherrypy.expose
 	def building(self, *args, **kwargs):
 		return self.call_method('Building', self.get_argument(args, kwargs))

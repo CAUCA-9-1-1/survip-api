@@ -16,7 +16,7 @@ class Survey(Base):
 		'PATCH': '',
 	}
 
-	def get(self, id_survey=None, is_active=None):
+	def get(self, id_survey=None):
 		""" Return the survey information
 
 		:param id_survey: UUID
@@ -25,10 +25,8 @@ class Survey(Base):
 			self.no_access()
 
 		with Database() as db:
-			if id_survey is None and is_active is None:
+			if id_survey is None:
 				data = db.query(Table).all()
-			elif id_survey is None:
-				data = db.query(Table).filter(Table.is_active == is_active).all()
 			else:
 				data = db.query(Table).get(id_survey)
 
@@ -36,10 +34,10 @@ class Survey(Base):
 			'data': data
 		}
 
-	def create(self, args):
+	def create(self, body):
 		""" Create a new survey
 
-		:param args: {
+		:param body: {
 			name: JSON,
 			survey_type: ENUM('test'),
 			questions: JSON
@@ -49,10 +47,10 @@ class Survey(Base):
 			self.no_access()
 
 		id_survey = uuid.uuid4()
-		id_language_content = MultiLang.set(args['name'], True)
+		id_language_content = MultiLang.set(body['name'], True)
 
 		with Database() as db:
-			db.insert(Table(id_survey, id_language_content, args['survey_type']))
+			db.insert(Table(id_survey, id_language_content, body['survey_type']))
 			db.commit()
 
 		return {
@@ -60,10 +58,10 @@ class Survey(Base):
 			'message': 'survey successfully created'
 		}
 
-	def modify(self, args):
+	def modify(self, body):
 		""" Modify a survey
 
-		:param args: {
+		:param body: {
 			id_survey: UUID,
 			name: JSON,
 			survey_type: ENUM('test'),
@@ -74,28 +72,28 @@ class Survey(Base):
 		if self.has_permission('RightTPI') is False:
 			self.no_access()
 
-		if 'id_survey' not in args:
+		if 'id_survey' not in body:
 			raise Exception("You need to pass a id_survey")
 
 		with Database() as db:
 			inspection = db.query(Inspection).filter(
-				Inspection.id_survey == args['id_survey'],
+				Inspection.id_survey == body['id_survey'],
 				Inspection.is_completed == True,
 			).all()
 
 			if len(inspection) > 0:
-				self.remove(args['id_survey'])
-				self.create(args)
+				self.remove(body['id_survey'])
+				self.create(body)
 			else:
-				data = db.query(Table).get(args['id_survey'])
+				data = db.query(Table).get(body['id_survey'])
 
-				if 'name' in args:
-					data.id_language_content_name = MultiLang.set(args['name'])
+				if 'name' in body:
+					data.id_language_content_name = MultiLang.set(body['name'])
 
-				if 'survey_type' in args:
-					data.survey_type = args['survey_type']
-				if 'is_active' in args:
-					data.is_active = args['is_active']
+				if 'survey_type' in body:
+					data.survey_type = body['survey_type']
+				if 'is_active' in body:
+					data.is_active = body['is_active']
 
 				db.commit()
 
