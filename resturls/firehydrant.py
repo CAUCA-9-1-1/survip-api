@@ -32,7 +32,6 @@ class FireHydrant(Base):
 			'data': data
 		}
 
-
 	def create(self, body):
 		""" Create a new fire hydrant
 

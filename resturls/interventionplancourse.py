@@ -50,14 +50,14 @@ class InterventionPlanCourse(Base):
 			}
 		}
 
-	def create(self, args):
-		if 'id_firestation' not in args or 'id_intervention_plan' not in args:
+	def create(self, body):
+		if 'id_firestation' not in body or 'id_intervention_plan' not in body:
 			raise Exception("You need to pass a 'id_firestation' and 'id_intervention_plan'")
 
 		id_intervention_plan_course = uuid.uuid4()
 
 		with Database() as db:
-			db.insert(Table(id_intervention_plan_course, args['id_intervention_plan'], args['id_firestation']))
+			db.insert(Table(id_intervention_plan_course, body['id_intervention_plan'], body['id_firestation']))
 			db.commit()
 
 		return {
@@ -65,17 +65,17 @@ class InterventionPlanCourse(Base):
 			'message': "Intervention plan's course successfully created."
 		}
 
-	def modify(self, args):
-		if 'id_intervention_plan_course' not in args:
+	def modify(self, body):
+		if 'id_intervention_plan_course' not in body:
 			raise Exception("You need to pass a 'id_intervention_plan_course'")
 
 		with Database() as db:
-			data = db.query(Table).get(args['id_intervention_plan_course'])
+			data = db.query(Table).get(body['id_intervention_plan_course'])
 
-			if 'id_firestation' in args:
-				data.id_firestation = args['id_firestation']
-			if 'is_active' in args:
-				data.is_active = args['is_active']
+			if 'id_firestation' in body:
+				data.id_firestation = body['id_firestation']
+			if 'is_active' in body:
+				data.is_active = body['is_active']
 
 			db.commit()
 
