@@ -33,10 +33,10 @@ class Lane(Base):
 			'data': data
 		}
 
-	def create(self, args):
+	def create(self, body):
 		""" Create a new lane
 
-		:param args: {
+		:param body: {
 			name: JSON,
 			id_city: UUID
 		}
@@ -44,16 +44,16 @@ class Lane(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'id_city' not in args or 'name' not in args:
+		if 'id_city' not in body or 'name' not in body:
 			raise Exception("You need to pass a 'name' and 'id_city'")
 
 		id_lane = uuid.uuid4()
-		id_language_content = MultiLang.set(args['name'], True)
-		public_lane_code = args['public_lane_code'] if 'public_lane_code' in args else None
-		generic_code = args['generic_code'] if 'generic_code' in args else None
+		id_language_content = MultiLang.set(body['name'], True)
+		public_lane_code = body['public_lane_code'] if 'public_lane_code' in body else None
+		generic_code = body['generic_code'] if 'generic_code' in body else None
 
 		with Database() as db:
-			db.insert(Table(id_lane, id_language_content, args['id_city'],
+			db.insert(Table(id_lane, id_language_content, body['id_city'],
 			                public_lane_code, generic_code))
 			db.commit()
 
@@ -62,10 +62,10 @@ class Lane(Base):
 			'message': 'lane successfully created'
 		}
 
-	def modify(self, args):
+	def modify(self, body):
 		""" Modify a lane
 
-		:param args: {
+		:param body: {
 			id_lane: UUID,
 			name: JSON,
 			id_city: UUID,
@@ -74,20 +74,20 @@ class Lane(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'id_lane' not in args:
+		if 'id_lane' not in body:
 			raise Exception("You need to pass a id_lane")
 
 		with Database() as db:
-			data = db.query(Table).filter(Table.id_lane == args['id_lane']).first()
+			data = db.query(Table).filter(Table.id_lane == body['id_lane']).first()
 
-			if 'name' in args:
-				data.id_language_content_name = MultiLang.set(args['name'])
-			if 'id_city' in args:
-				data.id_city = args['id_city']
-			if 'public_lane_code' in args:
-				data.public_lane_code = args['public_lane_code']
-			if 'generic_code' in args:
-				data.generic_code = args['generic_code']
+			if 'name' in body:
+				data.id_language_content_name = MultiLang.set(body['name'])
+			if 'id_city' in body:
+				data.id_city = body['id_city']
+			if 'public_lane_code' in body:
+				data.public_lane_code = body['public_lane_code']
+			if 'generic_code' in body:
+				data.generic_code = body['generic_code']
 
 			db.commit()
 

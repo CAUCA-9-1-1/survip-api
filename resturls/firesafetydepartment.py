@@ -33,10 +33,10 @@ class FireSafetyDepartment(Base):
 			'data': data
 		}
 
-	def create(self, args):
+	def create(self, body):
 		""" Create a new fire safety department
 
-		:param args: {
+		:param body: {
 			name: JSON,
 			id_county: UUID,
 			language: STRING,
@@ -44,9 +44,9 @@ class FireSafetyDepartment(Base):
 		}
 		"""
 		id_fire_safety_department = uuid.uuid4()
-		id_language_content = MultiLang.set(args['name'], True)
-		id_county = args['id_county'] if 'id_county' in args else None
-		language = args['language'] if 'language' in args else None
+		id_language_content = MultiLang.set(body['name'], True)
+		id_county = body['id_county'] if 'id_county' in body else None
+		language = body['language'] if 'language' in body else None
 
 		with Database() as db:
 			db.insert(Table(id_fire_safety_department, id_language_content, id_county, language))
@@ -57,29 +57,29 @@ class FireSafetyDepartment(Base):
 			'message': 'fire safety department successfully created'
 		}
 
-	def modify(self, args):
+	def modify(self, body):
 		""" Modify a fire safety department
 
-		:param args: {
+		:param body: {
 			id_fire_safety_department: UUID,
 			name: JSON,
 			is_active: BOOLEAN
 		}
 		"""
-		if 'id_fire_safety_department' not in args:
+		if 'id_fire_safety_department' not in body:
 			raise Exception("You need to pass a id_fire_safety_department")
 
 		with Database() as db:
-			data = db.query(Table).get(args['id_fire_safety_department'])
+			data = db.query(Table).get(body['id_fire_safety_department'])
 
-			if 'name' in args:
-				data.id_language_content_name = MultiLang.set(args['name'])
-			if 'id_county' in args:
-				data.id_county = args['id_county']
-			if 'language' in args:
-				data.language = args['language']
-			if 'is_active' in args:
-				data.is_active = args['is_active']
+			if 'name' in body:
+				data.id_language_content_name = MultiLang.set(body['name'])
+			if 'id_county' in body:
+				data.id_county = body['id_county']
+			if 'language' in body:
+				data.language = body['language']
+			if 'is_active' in body:
+				data.is_active = body['is_active']
 
 			db.commit()
 

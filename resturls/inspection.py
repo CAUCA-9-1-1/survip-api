@@ -33,10 +33,10 @@ class Inspection(Base):
 			'data': data
 		}
 
-	def create(self, args):
+	def create(self, body):
 		""" Assign building inspection to someone
 
-		:param args: {
+		:param body: {
 			id_building: UUID,
 			id_webuser: UUID,
 			id_survey: UUID
@@ -45,12 +45,12 @@ class Inspection(Base):
 		if self.has_permission('RightTPI') is False:
 			self.no_access()
 
-		if 'id_survey' not in args or 'id_building' not in args or 'id_webuser' not in args:
+		if 'id_survey' not in body or 'id_building' not in body or 'id_webuser' not in body:
 			raise Exception("You need to pass a 'id_webuser', 'id_building' and 'id_survey'")
 
 		id_inspection = uuid.uuid4()
 		with Database() as db:
-			db.insert(Table(id_inspection, args['id_survey'], args['id_building'], args['id_webuser']))
+			db.insert(Table(id_inspection, body['id_survey'], body['id_building'], body['id_webuser']))
 			db.commit()
 
 		return {
@@ -58,28 +58,28 @@ class Inspection(Base):
 			'message': 'inspection successfully created'
 		}
 
-	def modify(self, args):
+	def modify(self, body):
 		""" Mark inspection as done
 
-		:param args: {
+		:param body: {
 			id_inspection: UUID
 		}
 		"""
 		if self.has_permission('RightTPI') is False:
 			self.no_access()
 
-		if 'id_inspection' not in args:
+		if 'id_inspection' not in body:
 			raise Exception("You need to pass a 'id_inspection'")
 
 		with Database() as db:
-			data = db.query(Table).filter(Table.id_inspection == args['id_inspection']).first()
+			data = db.query(Table).filter(Table.id_inspection == body['id_inspection']).first()
 
-			if 'id_webuser' in args:
-				data.id_webuser = args['id_webuser']
-			if 'is_active' in args:
-				data.is_active = args['is_active']
-			if 'is_completed' in args:
-				data.is_completed = args['is_completed']
+			if 'id_webuser' in body:
+				data.id_webuser = body['id_webuser']
+			if 'is_active' in body:
+				data.is_active = body['is_active']
+			if 'is_completed' in body:
+				data.is_completed = body['is_completed']
 			db.commit()
 
 		return {

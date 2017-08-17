@@ -34,10 +34,10 @@ class HazardousMaterial(Base):
 		}
 
 
-	def create(self, args):
+	def create(self, body):
 		""" Create a new hazardous material
 
-		:param args: {
+		:param body: {
 			number: STRING,
 			name: JSON,
 			guide_number: STRING,
@@ -48,17 +48,17 @@ class HazardousMaterial(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'number' not in args or 'name' not in args:
+		if 'number' not in body or 'name' not in body:
 			raise Exception("You need to pass a 'name' and 'number'")
 
 		id_hazardous_material = uuid.uuid4()
-		id_language_content = MultiLang.set(args['name'], True)
-		guide_number = args['guide_number'] if 'guide_number' in args else None
-		reaction_to_water = args['reaction_to_water'] if 'reaction_to_water' in args else False
-		toxic_inhalation_hazard = args['toxic_inhalation_hazard'] if 'toxic_inhalation_hazard' in args else False
+		id_language_content = MultiLang.set(body['name'], True)
+		guide_number = body['guide_number'] if 'guide_number' in body else None
+		reaction_to_water = body['reaction_to_water'] if 'reaction_to_water' in body else False
+		toxic_inhalation_hazard = body['toxic_inhalation_hazard'] if 'toxic_inhalation_hazard' in body else False
 
 		with Database() as db:
-			db.insert(Table(id_hazardous_material, args['number'], id_language_content,
+			db.insert(Table(id_hazardous_material, body['number'], id_language_content,
 			                guide_number, reaction_to_water, toxic_inhalation_hazard))
 			db.commit()
 
@@ -67,10 +67,10 @@ class HazardousMaterial(Base):
 			'message': 'hazardous material successfully created'
 		}
 
-	def modify(self, args):
+	def modify(self, body):
 		""" Modify a hazardous material
 
-		:param args: {
+		:param body: {
 			id_hazardous_material: UUID,
 			number: STRING,
 			name: JSON,
@@ -83,24 +83,24 @@ class HazardousMaterial(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'id_hazardous_material' not in args:
+		if 'id_hazardous_material' not in body:
 			raise Exception("You need to pass a id_hazardous_material")
 
 		with Database() as db:
-			data = db.query(Table).get(args['id_hazardous_material'])
+			data = db.query(Table).get(body['id_hazardous_material'])
 
-			if 'name' in args:
-				data.id_language_content_name = MultiLang.set(args['name'])
-			if 'number' in args:
-				data.number = args['number']
-			if 'guide_number' in args:
-				data.guide_number = args['guide_number']
-			if 'reaction_to_water' in args:
-				data.reaction_to_water = args['reaction_to_water']
-			if 'toxic_inhalation_hazard' in args:
-				data.toxic_inhalation_hazard = args['toxic_inhalation_hazard']
-			if 'is_active' in args:
-				data.is_active = args['is_active']
+			if 'name' in body:
+				data.id_language_content_name = MultiLang.set(body['name'])
+			if 'number' in body:
+				data.number = body['number']
+			if 'guide_number' in body:
+				data.guide_number = body['guide_number']
+			if 'reaction_to_water' in body:
+				data.reaction_to_water = body['reaction_to_water']
+			if 'toxic_inhalation_hazard' in body:
+				data.toxic_inhalation_hazard = body['toxic_inhalation_hazard']
+			if 'is_active' in body:
+				data.is_active = body['is_active']
 
 			db.commit()
 

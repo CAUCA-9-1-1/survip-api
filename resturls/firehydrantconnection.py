@@ -33,10 +33,10 @@ class FireHydrantConnection(Base):
 		}
 
 
-	def create(self, args):
+	def create(self, body):
 		""" Create a new fire hydrant connection
 
-		:param args: {
+		:param body: {
 			id_fire_hydrant: UUID,
 			diameter: FLOAT,
 			id_unit_of_measure_diameter: UUID,
@@ -46,16 +46,16 @@ class FireHydrantConnection(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'id_fire_hydrant' not in args:
+		if 'id_fire_hydrant' not in body:
 			raise Exception("You need to pass a 'id_fire_hydrant'")
 
 		id_fire_hydrant_connection = uuid.uuid4()
-		diameter = args['diameter'] if 'diameter' in args else None
-		id_unit_of_measure = args['id_unit_of_measure_diameter'] if 'id_unit_of_measure_diameter' in args else None
-		id_fire_hydrant_connection_type = args['id_fire_hydrant_connection_type'] if 'id_fire_hydrant_connection_type' in args else None
+		diameter = body['diameter'] if 'diameter' in body else None
+		id_unit_of_measure = body['id_unit_of_measure_diameter'] if 'id_unit_of_measure_diameter' in body else None
+		id_fire_hydrant_connection_type = body['id_fire_hydrant_connection_type'] if 'id_fire_hydrant_connection_type' in body else None
 
 		with Database() as db:
-			db.insert(Table(id_fire_hydrant_connection_type, args['id_fire_hydrant'],
+			db.insert(Table(id_fire_hydrant_connection_type, body['id_fire_hydrant'],
 			                diameter, id_unit_of_measure, id_fire_hydrant_connection_type))
 			db.commit()
 
@@ -64,10 +64,10 @@ class FireHydrantConnection(Base):
 			'message': 'fire hydrant connection successfully created'
 		}
 
-	def modify(self, args):
+	def modify(self, body):
 		""" Modify a fire hydrant connection
 
-		:param args: {
+		:param body: {
 			id_fire_hydrant_connection: UUID,
 			diameter: FLOAT,
 			id_unit_of_measure_diameter: UUID,
@@ -78,20 +78,20 @@ class FireHydrantConnection(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'id_fire_hydrant_connection' not in args:
+		if 'id_fire_hydrant_connection' not in body:
 			raise Exception("You need to pass a id_fire_hydrant_connection")
 
 		with Database() as db:
-			data = db.query(Table).get(args['id_fire_hydrant_connection'])
+			data = db.query(Table).get(body['id_fire_hydrant_connection'])
 
-			if 'diameter' in args:
-				data.diameter = args['diameter']
-			if 'id_unit_of_measure_diameter' in args:
-				data.id_unit_of_measure_diameter = args['id_unit_of_measure_diameter']
-			if 'id_fire_hydrant_connection_type' in args:
-				data.id_fire_hydrant_connection_type = args['id_fire_hydrant_connection_type']
-			if 'is_active' in args:
-				data.is_active = args['is_active']
+			if 'diameter' in body:
+				data.diameter = body['diameter']
+			if 'id_unit_of_measure_diameter' in body:
+				data.id_unit_of_measure_diameter = body['id_unit_of_measure_diameter']
+			if 'id_fire_hydrant_connection_type' in body:
+				data.id_fire_hydrant_connection_type = body['id_fire_hydrant_connection_type']
+			if 'is_active' in body:
+				data.is_active = body['is_active']
 
 			db.commit()
 

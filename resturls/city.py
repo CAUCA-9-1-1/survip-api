@@ -34,10 +34,10 @@ class City(Base):
 			'data': data
 		}
 
-	def create(self, args):
+	def create(self, body):
 		""" Create a new city
 
-		:param args: {
+		:param body: {
 			name: JSON,
 			id_building: UUID,
 			id_city_type: UUID,
@@ -50,20 +50,20 @@ class City(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'id_county' not in args or 'name' not in args:
+		if 'id_county' not in body or 'name' not in body:
 			raise Exception("You need to pass a 'name' and 'id_county'")
 
 		id_city = uuid.uuid4()
-		id_language_content = MultiLang.set(args['name'], True)
-		id_building = args['id_building'] if 'id_building' in args else None
-		id_city_type = args['id_city_type'] if 'id_city_type' in args else None
-		code = args['code'] if 'code' in args else None
-		code3_letter = args['code3_letter'] if 'code3_letter' in args else None
-		email_address = args['email_address'] if 'email_address' in args else None
+		id_language_content = MultiLang.set(body['name'], True)
+		id_building = body['id_building'] if 'id_building' in body else None
+		id_city_type = body['id_city_type'] if 'id_city_type' in body else None
+		code = body['code'] if 'code' in body else None
+		code3_letter = body['code3_letter'] if 'code3_letter' in body else None
+		email_address = body['email_address'] if 'email_address' in body else None
 
 		with Database() as db:
 			db.insert(Table(
-				id_city, id_language_content, id_building, args['id_county'], id_city_type,
+				id_city, id_language_content, id_building, body['id_county'], id_city_type,
 				code, code3_letter, email_address))
 			db.commit()
 
@@ -72,10 +72,10 @@ class City(Base):
 			'message': 'city successfully created'
 		}
 
-	def modify(self, args):
+	def modify(self, body):
 		""" Modify a city
 
-		:param args: {
+		:param body: {
 			id_city: UUID,
 			id_county: UUID,
 			id_building: UUID,
@@ -89,26 +89,26 @@ class City(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'id_city' not in args:
+		if 'id_city' not in body:
 			raise Exception("You need to pass a id_city")
 
 		with Database() as db:
-			data = db.query(Table).get(args['id_city'])
+			data = db.query(Table).get(body['id_city'])
 
-			if 'name' in args:
-				data.id_language_content_name = MultiLang.set(args['name'])
-			if 'id_building' in args:
-				data.id_building = args['id_building']
-			if 'id_city_type' in args:
-				data.id_city_type = args['id_city_type']
-			if 'id_county' in args:
-				data.id_county = args['id_county']
-			if 'code' in args:
-				data.code = args['code']
-			if 'code3_letter' in args:
-				data.code3_letter = args['code3_letter']
-			if 'is_active' in args:
-				data.is_active = args['is_active']
+			if 'name' in body:
+				data.id_language_content_name = MultiLang.set(body['name'])
+			if 'id_building' in body:
+				data.id_building = body['id_building']
+			if 'id_city_type' in body:
+				data.id_city_type = body['id_city_type']
+			if 'id_county' in body:
+				data.id_county = body['id_county']
+			if 'code' in body:
+				data.code = body['code']
+			if 'code3_letter' in body:
+				data.code3_letter = body['code3_letter']
+			if 'is_active' in body:
+				data.is_active = body['is_active']
 
 			db.commit()
 

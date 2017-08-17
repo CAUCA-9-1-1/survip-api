@@ -37,10 +37,10 @@ class Building(Base):
 			'data': data
 		}
 
-	def create(self, args):
+	def create(self, body):
 		""" Create a new building
 
-		:param args: {
+		:param body: {
 			name: JSON,
 			id_lane: UUID
 			civic_number: STRING
@@ -50,10 +50,10 @@ class Building(Base):
 			self.no_access()
 
 		id_building = uuid.uuid4()
-		id_language_content = MultiLang.set(args['name'], True)
+		id_language_content = MultiLang.set(body['name'], True)
 
 		with Database() as db:
-			db.insert(Table(id_building, id_language_content, args['civic_number']))
+			db.insert(Table(id_building, id_language_content, body['civic_number']))
 			db.commit()
 
 		return {
@@ -61,10 +61,10 @@ class Building(Base):
 			'message': 'building successfully created'
 		}
 
-	def modify(self, args):
+	def modify(self, body):
 		""" Modify all information for building
 
-		:param args: {
+		:param body: {
 			id_building: UUID,
 			name: JSON,
 			civic_number: STRING
@@ -73,24 +73,24 @@ class Building(Base):
 		if self.has_permission('RightAdmin') is False:
 			self.no_access()
 
-		if 'id_building' not in args:
+		if 'id_building' not in body:
 			raise Exception("You need to pass a id_building")
 
 		with Database() as db:
-			data = db.query(Table).get(args['id_building'])
+			data = db.query(Table).get(body['id_building'])
 
-			if 'name' in args:
-				data.id_language_content_name = MultiLang.set(args['name'])
-			if 'civic_number' in args:
-				data.civic_number = args['civic_number']
-			if 'year_of_construction' in args:
-				data.year_of_construction = args['year_of_construction']
-			if 'building_value' in args:
-				data.building_value = args['building_value']
-			if 'number_of_floors' in args:
-				data.number_of_floors = args['number_of_floors']
-			if 'number_of_appartment' in args:
-				data.number_of_appartment = args['number_of_appartment']
+			if 'name' in body:
+				data.id_language_content_name = MultiLang.set(body['name'])
+			if 'civic_number' in body:
+				data.civic_number = body['civic_number']
+			if 'year_of_construction' in body:
+				data.year_of_construction = body['year_of_construction']
+			if 'building_value' in body:
+				data.building_value = body['building_value']
+			if 'number_of_floors' in body:
+				data.number_of_floors = body['number_of_floors']
+			if 'number_of_appartment' in body:
+				data.number_of_appartment = body['number_of_appartment']
 
 			db.commit()
 
