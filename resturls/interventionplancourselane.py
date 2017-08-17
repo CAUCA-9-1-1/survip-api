@@ -17,7 +17,7 @@ class InterventionPlanCourseLane(Base):
 
 	def get(self, id_intervention_plan_course_lane):
 		with Database() as db:
-			data = db.query(Table).filter(Table.is_active == '1', Table.id_intervention_plan_course_lane == id_intervention_plan_course_lane).all()
+			data = db.query(Table).filter(Table.is_active == '1', Table.id_intervention_plan_course_lane == id_intervention_plan_course_lane).first()
 
 		return {'data': data}
 
@@ -57,10 +57,26 @@ class InterventionPlanCourseLane(Base):
 
 		return {'message': 'Course lane successfully modified.'}
 
-	def delete(self, id_intervention_plan_course_lane):
+	def remove(self, id_intervention_plan_course_lane):
+		print('deleteeeeeeee')
 		with Database() as db:
-			data = db.query(Table).get(id_intervention_plan_course_lane)
-			data.is_active = False
+			lane = db.query(Table).get(id_intervention_plan_course_lane)
+
+			lanes = db.query(Table).\
+				filter(Table.is_active == '1', Table.id_intervention_plan_course == lane.id_intervention_plan_course). \
+				order_by(Table.sequence). \
+				all()
+
+			sequence = 1
+
+			for item in lanes:
+				if item.id_intervention_plan_course_lane == lane.id_intervention_plan_course_lane:
+					# print('deactivate')
+					item.is_active = '0'
+				else:
+					item.sequence = sequence
+					sequence = sequence + 1
+
 			db.commit()
 
 		return {'message': "Intervention plan course's lane successfully deleted."}
