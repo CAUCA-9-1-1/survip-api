@@ -28,7 +28,8 @@ class UrlForBuilding(ExecuteApiClass):
 
 		RouteUrl('/risklevel/', 'RiskLevel')
 		RouteUrl('/risklevel/:id_risk_level', 'RiskLevel')
-		RouteUrl('/risklevellist/:language', 'RiskLevelList', 'GET', 'get')
+		RouteUrl('/risklevellist/', 'RiskLevelList', 'GET', 'get')
+		RouteUrl('/risklevellist/:id_risk_level', 'RiskLevelList', 'GET', 'get')
 
 		RouteUrl('/utilisationcode/', 'UtilisationCode')
 		RouteUrl('/utilisationcode/:id_utilisation_code', 'UtilisationCode')
