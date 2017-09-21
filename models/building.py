@@ -4,13 +4,11 @@ from geoalchemy2 import Geometry, functions
 from sqlalchemy import Column, Boolean, DateTime, Float, Numeric, String, Text, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import joinedload
-
 from cause.api.management.core.database import Database
 from cause.api.management.core.multilang import MultiLang
 from cause.api.management.models.language_content import LanguageContent
 from cause.api.survip.resturls.mappers.building_for_display_loader import BuildingForDisplayLoader
-from .lane import Lane
+from cause.api.management.resturls.webuser import Webuser
 
 
 Base = declarative_base()
@@ -32,12 +30,13 @@ class Building(Base):
 
 	@hybrid_property
 	def name(self):
-		return MultiLang.get_by_language('fr', self.id_language_content_name)
+		language = Webuser().get_attribute('language')
+		return MultiLang.get_by_language(language, self.id_language_content_name)
 
 	@hybrid_property
 	def address(self):
-		print('JE ME RENDS ICITTE CALINE!')
-		return BuildingForDisplayLoader.get_building_full_address('fr', self)
+		language = Webuser().get_attribute('language')
+		return BuildingForDisplayLoader.get_building_full_address(language, self)
 
 	@hybrid_property
 	def geojson(self):
