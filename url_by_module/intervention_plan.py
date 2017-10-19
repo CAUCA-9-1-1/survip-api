@@ -26,6 +26,7 @@ class UrlForInterventionPlan(ExecuteApiClass):
 		RouteUrl('/interventionplancourselaneforlist/:id_intervention_plan_course', 'InterventionPlanCourseLaneForList', 'GET', 'get')
 
 		RouteUrl('/firestation/', 'Firestation')
+		RouteUrl('/firestationforlist/', 'FirestationForList', 'GET', 'get')
 		RouteUrl('/firestationforlist/:id_firestation', 'FirestationForList', 'GET', 'get')
 
 		RouteUrl('/routedirection/', 'RouteDirection', 'GET', 'get')
