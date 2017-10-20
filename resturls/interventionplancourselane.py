@@ -21,15 +21,15 @@ class InterventionPlanCourseLane(Base):
 
 		return {'data': data}
 
-	def create(self, args):
-		if 'id_lane' not in args or 'direction' not in args or 'id_intervention_plan_course' not in args or 'sequence' not in args:
+	def create(self, body):
+		if 'id_lane' not in body or 'direction' not in body or 'id_intervention_plan_course' not in body or 'sequence' not in body:
 			raise Exception("You need to pass a 'direction', 'id_lane', 'sequence' and 'id_intervention_plan_course'")
 
 		id_intervention_plan_course_lane = uuid.uuid4()
 
 		with Database() as db:
-			db.insert(Table(id_intervention_plan_course_lane, args['id_intervention_plan_course'],
-							args['id_lane'], args['direction'], args['sequence']))
+			db.insert(Table(id_intervention_plan_course_lane, body['id_intervention_plan_course'],
+							body['id_lane'], body['direction'], body['sequence']))
 			db.commit()
 
 		return {
@@ -37,21 +37,21 @@ class InterventionPlanCourseLane(Base):
 			'message': "Course's lane successfully created."
 		}
 
-	def modify(self, args):
-		if 'id_intervention_plan_course_lane' not in args:
+	def modify(self, body):
+		if 'id_intervention_plan_course_lane' not in body:
 			raise Exception("You need to pass a 'id_intervention_plan_course_lane'")
 
 		with Database() as db:
-			data = db.query(Table).get(args['id_intervention_plan_course_lane'])
+			data = db.query(Table).get(body['id_intervention_plan_course_lane'])
 
-			if 'direction' in args:
-				data.direction = args['direction']
-			if 'id_lane' in args:
-				data.id_lane = args['id_lane']
-			if 'is_active' in args:
-				data.is_active = args['is_active']
-			if 'sequence' in args:
-				data.sequence = args['sequence']
+			if 'direction' in body:
+				data.direction = body['direction']
+			if 'id_lane' in body:
+				data.id_lane = body['id_lane']
+			if 'is_active' in body:
+				data.is_active = body['is_active']
+			if 'sequence' in body:
+				data.sequence = body['sequence']
 
 			db.commit()
 
